@@ -7,7 +7,7 @@
 {% load static %}
 <!--h2>Login</h2-->
 <form method="post" style="margin: 20px;">
-    <div class="card border-primary mb-3" style="max-width: 22rem; margin:0 auto;">
+    <div class="card" style="max-width: 22rem; margin:0 auto;">
 
         <img src="{% static "login.png" %}" height="100" width="100" style=" margin:15px auto;">
 
@@ -17,7 +17,7 @@
             {% csrf_token %}
             {{ form|crispy }}
                     <div style="text-align: center;">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-dark">Login</button>
                     </div>
                 </div>
 
