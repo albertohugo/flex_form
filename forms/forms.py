@@ -1,7 +1,12 @@
-from django.contrib.auth.models import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import PostForm
+#from .forms import PostForm
+from django import forms
+
+class FormTitle(forms.Form):
+    form_title = forms.CharField(label='Form Title', max_length=100)
+    template_name = 'new_form.html'
 
 class SignUp(generic.CreateView):
     form_class = UserCreationForm

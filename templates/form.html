@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="forms/new_form">Form<span class="sr-only"></span></a>
+                <a class="nav-link" href="">Form<span class="sr-only">(current)</span></a>
             </li>
             {% if user.is_superuser %}
             <li class="nav-item">
@@ -27,12 +27,18 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form-->
 
+
         <form class="form-inline my-2 my-lg-0">
             <input class="btn btn-outline-light"type="button" value="Logout" onclick="window.location.href='{% url 'logout' %}'" />
         </form>
     </div>
 </nav>
-
+<br>
+<form action="/your-name/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
 
 
 <!--p><a href="{% url 'password_reset' %}">reset password</a></p-->
