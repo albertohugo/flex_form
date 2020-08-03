@@ -4,7 +4,7 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from .forms import FormTitle
+from .forms import NameForm
 from django import forms
 
 class SignUp(generic.CreateView):
@@ -12,6 +12,17 @@ class SignUp(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
-class FormTitle(forms.Form):
-    form_title = forms.CharField(label='Form Title', max_length=100)
-    template_name = 'new_form.html'
+def get_name(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = NameForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data['your_name'])
+            return HttpResponseRedirect('../..')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NameForm()
+
+    return render(request, 'new_form.html', {'form': form})
