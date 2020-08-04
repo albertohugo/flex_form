@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'forms',
     'crispy_forms',
+    'bootstrap_modal_forms',
+    'widget_tweaks',
 
 ]
 
