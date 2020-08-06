@@ -18,3 +18,9 @@ class Book(models.Model):
     book_type = models.PositiveSmallIntegerField(choices=BOOK_TYPES)
 
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
+
+class Form(models.Model):
+    title = models.CharField(max_length=50)
+    status = models.BooleanField(default=False)
+    created_by = models.CharField(max_length=30)
+    timestamp = models.DateField(auto_now_add=True, auto_now=False)

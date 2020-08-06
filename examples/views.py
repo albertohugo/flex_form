@@ -17,9 +17,10 @@ from .forms import (
     BookModelForm,
     CustomUserCreationForm,
     CustomAuthenticationForm,
-    BookFilterForm
+    BookFilterForm,
+    FormModelForm
 )
-from .models import Book
+from .models import Book, Form
 
 
 class Index(generic.ListView):
@@ -32,7 +33,6 @@ class Index(generic.ListView):
         if 'type' in self.request.GET:
             qs = qs.filter(book_type=int(self.request.GET['type']))
         return qs
-
 
 class BookFilterView(BSModalFormView):
     template_name = 'examples/filter_book.html'
@@ -99,6 +99,56 @@ def books(request):
         data['table'] = render_to_string(
             '_books_table.html',
             {'books': books},
+            request=request
+        )
+        return JsonResponse(data)
+
+######## Forms ########
+
+class Forms(generic.ListView):
+    model = Form
+    context_object_name = 'forms'
+    template_name = 'forms.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'type' in self.request.GET:
+            qs = qs.filter(form_type=int(self.request.GET['type']))
+        return qs
+
+class FormCreateView(BSModalCreateView):
+    template_name = 'examples/create_form.html'
+    form_class = FormModelForm
+    success_message = 'Success: Form was created.'
+    success_url = reverse_lazy('forms_page')
+
+
+class FormUpdateView(BSModalUpdateView):
+    model = Form
+    template_name = 'examples/update_form.html'
+    form_class = FormModelForm
+    success_message = 'Success: Form was updated.'
+    success_url = reverse_lazy('forms_page')
+
+
+class FormReadView(BSModalReadView):
+    model = Form
+    template_name = 'examples/read_form.html'
+
+
+class FormDeleteView(BSModalDeleteView):
+    model = Form
+    template_name = 'examples/delete_form.html'
+    success_message = 'Success: Form was deleted.'
+    success_url = reverse_lazy('forms_page')
+
+def forms(request):
+    data = dict()
+    if request.method == 'GET':
+        forms = Form.objects.all()
+        data['table'] = render_to_string(
+            '_forms_table.html',
+            {'forms': forms},
             request=request
         )
         return JsonResponse(data)

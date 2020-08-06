@@ -1,0 +1,39 @@
+<table id="forms-table" class="table">
+  <thead>
+  <tr>
+    <th class="text-center" scope="col">#</th>
+    <th class="text-center" scope="col">Id</th>
+    <th class="text-center" scope="col">Title</th>
+    <th class="text-center" scope="col">Created by</th>
+    <th class="text-center" scope="col">Status</th>
+    <th class="text-center" scope="col">Created time</th>
+    <th class="text-center" scope="col">Read / Update / Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for form in forms %}
+    <tr>
+      <th class="text-center" scope="row">{{ forloop.counter }}</th>
+      <td class="text-center">{{ form.id }}</td>
+      <td class="text-center">{{ form.title }}</td>
+      <td class="text-center">{{ form.created_by }}</td>
+      <td class="text-center">{{ form.status }}</td>
+      <td class="text-center">{{ form.timestamp }}</td>
+      <td class="text-center">
+        <!-- Read form buttons -->
+        <button type="button" class="bs-modal read-form btn btn-sm btn-primary" data-form-url="{% url 'read_form' form.pk %}">
+          <span class="fa fa-eye"></span>
+        </button>
+        <!-- Update form buttons -->
+        <button type="button" class="update-form btn btn-sm btn-primary" data-form-url="{% url 'update_form' form.pk %}">
+          <span class="fa fa-pencil"></span>
+        </button>
+        <!-- Delete form buttons -->
+        <button type="button" class="bs-modal delete-form btn btn-sm btn-danger" data-form-url="{% url 'delete_form' form.pk %}">
+          <span class="fa fa-trash"></span>
+        </button>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>

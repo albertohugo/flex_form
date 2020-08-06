@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from bootstrap_modal_forms.forms import BSModalModelForm, BSModalForm
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
-from .models import Book
+from .models import Book, Form
 
 
 class BookFilterForm(BSModalForm):
@@ -34,3 +34,13 @@ class CustomAuthenticationForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+
+##### Forms #######
+
+class FormModelForm(BSModalModelForm):
+
+    class Meta:
+        model = Form
+        exclude = ['timestamp']
+
