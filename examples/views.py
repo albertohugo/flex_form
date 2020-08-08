@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
+from django.http import HttpResponseRedirect
 
 from bootstrap_modal_forms.generic import (
     BSModalLoginView,
@@ -122,6 +123,12 @@ class FormCreateView(BSModalCreateView):
     success_message = 'Success: Form was created.'
     success_url = reverse_lazy('forms_page')
 
+    def form_valid(self, form):
+        if not self.request.is_ajax():
+            form = form.save(commit=False)
+            form.created_by = self.request.user  # use your own profile here
+            form.save()
+        return HttpResponseRedirect(self.success_url)
 
 class FormUpdateView(BSModalUpdateView):
     model = Form
@@ -152,3 +159,4 @@ def forms(request):
             request=request
         )
         return JsonResponse(data)
+

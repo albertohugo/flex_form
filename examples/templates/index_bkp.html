@@ -12,10 +12,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/">Books</a>
             </li>
              <li class="nav-item">
                 <a class="nav-link" href="forms_page">Forms</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="/" >Tab #2<span class="sr-only">(current)</span></a>
             </li>
         </ul>
 
@@ -39,7 +42,29 @@
         </form>
     </div>
 </nav>
-
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col-12 mb-3">
+            <button id="create-book" class="btn btn-primary" type="button" name="button">
+              <span class="fa fa-plus mr-2"></span>Create book
+            </button>
+            <button id="filter-book" class="bs-modal btn btn-primary" type="button" name="button" data-form-url="{% url 'filter_book' %}">
+              <span class="fa fa-filter mr-2"></span>Filter books
+            </button>
+          </div>
+          <div class="col-12 mb-3">
+            {% if books %}
+              {% include "_books_table.html" %}
+            {% else %}
+              <p class="no-books text-primary">No books added yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock content %}
 

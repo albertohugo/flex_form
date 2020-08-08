@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Book(models.Model):
     HARDCOVER = 1
@@ -22,5 +22,5 @@ class Book(models.Model):
 class Form(models.Model):
     title = models.CharField(max_length=50)
     status = models.BooleanField(default=False)
-    created_by = models.CharField(max_length=30)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
