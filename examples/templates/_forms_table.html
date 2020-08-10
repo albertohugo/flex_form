@@ -1,12 +1,13 @@
+{% load static %}
 <table id="forms-table" class="table">
   <thead>
   <tr>
     <th class="text-center" scope="col">#</th>
     <th class="text-center" scope="col">Id</th>
-    <th class="text-center" scope="col">Title</th>
+    <th class="text-center" scope="col">Name</th>
     <th class="text-center" scope="col">Created by</th>
     <th class="text-center" scope="col">Status</th>
-    <th class="text-center" scope="col">Created time</th>
+    <th class="text-center" scope="col">Created at</th>
     <th class="text-center" scope="col">Read / Update / Delete</th>
   </tr>
   </thead>
@@ -19,30 +20,24 @@
       <td class="text-center">{{ form.created_by }}</td>
       <td class="text-center">
        {% if form.status == True %}
-        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-toggle2-on" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7 5H3a3 3 0 0 0 0 6h4a4.995 4.995 0 0 1-.584-1H3a2 2 0 1 1 0-4h3.416c.156-.357.352-.692.584-1z"/>
-          <path d="M16 8A5 5 0 1 1 6 8a5 5 0 0 1 10 0z"/>
-        </svg>
+        <img src="{% static "open-iconic-master/svg/circle-check.svg" %}" alt="Activated" width="15" height="15">
         {% else %}
-        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-toggle2-off" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"/>
-          <path fill-rule="evenodd" d="M5 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"/>
-        </svg>
+       <img src="{% static "open-iconic-master/svg/circle-x.svg" %}" alt="Deactivated" width="15" height="15">
       {% endif %}
 
       </td>
       <td class="text-center">{{ form.timestamp }}</td>
       <td class="text-center">
         <!-- Read form buttons -->
-        <button type="button" class="bs-modal read-form btn btn-sm btn-primary" data-form-url="{% url 'read_form' form.pk %}">
+        <button type="button" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #1b6ca8;" data-form-url="{% url 'read_form' form.pk %}">
           <span class="fa fa-eye"></span>
         </button>
         <!-- Update form buttons -->
-        <button type="button" class="update-form btn btn-sm btn-primary" data-form-url="{% url 'update_form' form.pk %}">
+        <button type="button" class="update-form btn btn-sm btn-secondary" style="background-color: #1b6ca8;" data-form-url="{% url 'update_form' form.pk %}">
           <span class="fa fa-pencil"></span>
         </button>
         <!-- Delete form buttons -->
-        <button type="button" class="bs-modal delete-form btn btn-sm btn-danger" data-form-url="{% url 'delete_form' form.pk %}">
+        <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary" data-form-url="{% url 'delete_form' form.pk %}">
           <span class="fa fa-trash"></span>
         </button>
       </td>

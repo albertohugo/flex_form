@@ -40,6 +40,9 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class FormModelForm(BSModalModelForm):
     class Meta:
+        labels = {
+            "title": "Name"
+        }
         model = Form
         exclude = ['timestamp', 'created_by']
 

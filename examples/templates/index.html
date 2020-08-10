@@ -3,7 +3,7 @@
 {% block content %}
 
   {% include "_modal.html" %}
-    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
     <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -15,7 +15,7 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
              <li class="nav-item">
-                <a class="nav-link" href="forms_page">Forms</a>
+                <a class="nav-link" href="forms_page">Instances</a>
             </li>
         </ul>
 
@@ -27,10 +27,10 @@
                 <strong>{{ user }}</strong>
               </span>
 
-              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-danger" role="button">Log out</a>
+              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light" role="button">Log out</a>
 
             {% else %}
-              <button id="signup-btn" class="btn btn-primary" type="button" name="button">Sign up</button><br>
+              <button id="signup-btn" class="btn btn-light" type="button" name="button">Sign up</button><br>
               <input class="btn btn-outline-light"type="button" value="Login" id="login-btn" />
             {% endif %}
 
