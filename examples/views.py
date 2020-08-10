@@ -25,8 +25,8 @@ from .models import Book, Form
 
 
 class Index(generic.ListView):
-    model = Book
-    context_object_name = 'books'
+    model = Form
+    context_object_name = 'forms'
     template_name = 'index.html'
 
     def get_queryset(self):

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
   {% include "_modal.html" %}
@@ -39,6 +39,34 @@
         </form>
     </div>
 </nav>
+
+<div class="container">
+        <div class="section-fluid ">
+  <br />
+
+          <div class="card-columns">
+            {% for form in forms %}
+               <div class="card text-white" style="background-color: #1b6ca8;">
+                   <div class="card-header">  {{ form.title }}</div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    ...
+                  </h5>
+                    Status:
+                    {% if form.status == True %}
+                                <img src="{% static "open-iconic-master/svg/circle-check_w.svg" %}"  alt="Activated" width="15" height="15">
+                                {% else %}
+                               <img src="{% static "open-iconic-master/svg/circle-x_w.svg" %}" alt="Deactivated" width="15" height="15">
+                                {% endif %}
+                  <p class="card-text">Created by: {{ form.created_by }}</p>
+                </div>
+              </div>
+              {% endfor %}
+          </div>
+
+
+    </div>
+  </div>
 
 
 {% endblock content %}
