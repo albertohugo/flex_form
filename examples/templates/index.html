@@ -46,21 +46,40 @@
 
           <div class="card-columns">
             {% for form in forms %}
+              {% if form.status == True %}
                <div class="card text-white" style="background-color: #1b6ca8;">
                    <div class="card-header">  {{ form.title }}</div>
                 <div class="card-body">
                   <h5 class="card-title">
-                    ...
                   </h5>
-                    Status:
-                    {% if form.status == True %}
-                                <img src="{% static "open-iconic-master/svg/circle-check_w.svg" %}"  alt="Activated" width="15" height="15">
-                                {% else %}
-                               <img src="{% static "open-iconic-master/svg/circle-x_w.svg" %}" alt="Deactivated" width="15" height="15">
-                                {% endif %}
-                  <p class="card-text">Created by: {{ form.created_by }}</p>
+
+                        <table class="table">
+                              <thead>
+                              <tr>
+                                 <th class="text-center" scope="col">Label</th>
+                                <th class="text-center" scope="col">Type</th>
+                              </tr>
+                              </thead>
+                                <tbody>
+                                     {% for object in objects %}
+                                            {% if form == object.form %}
+                                                     <tr>
+                                                        <td class="text-center">{{ object.label }}</td>
+                                                        <td class="text-center">
+                                                          {% if object.type == 1 %}
+                                                            <img src="{% static "open-iconic-master/svg/text_w.svg" %}" alt="Activated" width="15" height="15">
+                                                            {% else %}
+                                                           <img src="{% static "open-iconic-master/svg/calculator_w.svg" %}" alt="Deactivated" width="15" height="15">
+                                                          {% endif %}
+                                                         </td>
+                                                     </tr>
+                                            {% endif %}
+                                     {% endfor %}
+                             </tbody>
+                            </table>
                 </div>
               </div>
+               {% endif %}
               {% endfor %}
           </div>
 

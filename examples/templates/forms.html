@@ -89,7 +89,7 @@
             "<div ",
             "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
             "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
-            "Success: Form was updated.",
+            "Success: Instance was updated.",
             "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
             "<span aria-hidden='true'>&times;</span>",
             "</button>",
@@ -103,9 +103,9 @@
             $(".update-form").each(function () {
               $(this).modalForm({
                 formURL: $(this).data("form-url"),
-                asyncUpdate: true,
+                asyncUpdate: false,
                 asyncSettings: {
-                  closeOnSubmit: false,
+                  closeOnSubmit: true,
                   successMessage: asyncSuccessMessage,
                   dataUrl: "/forms/",
                   dataElementId: "#forms-table",
@@ -114,8 +114,42 @@
                 }
               });
             });
+
           }
           updateFormModalForm();
+
+           var asyncSuccessMessageObject = [
+            "<div ",
+            "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+            "Success: Object was updated.",
+            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+            "<span aria-hidden='true'>&times;</span>",
+            "</button>",
+            "</div>",
+            "<script>",
+            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            "<\/script>"
+          ].join("");
+
+           function updateObjectModalForm() {
+            $(".update-object").each(function () {
+              $(this).modalForm({
+                formURL: $(this).data("form-url"),
+                asyncUpdate: false,
+                asyncSettings: {
+                  closeOnSubmit: true,
+                  successMessage: asyncSuccessMessageObject,
+                  dataUrl: "/forms/",
+                  dataElementId: "#forms-table",
+                  dataKey: "table",
+                  addModalFormFunction: updateObjectModalForm
+                }
+              });
+            });
+          }
+
+          updateObjectModalForm();
 
           // Read and Delete form buttons open modal with id="modal"
           // The formURL is retrieved from the data of the element

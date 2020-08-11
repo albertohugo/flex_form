@@ -1,9 +1,12 @@
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponseRedirect
+import json
+from django.http import JsonResponse
 
 from bootstrap_modal_forms.generic import (
     BSModalLoginView,
@@ -19,13 +22,23 @@ from .forms import (
     CustomUserCreationForm,
     CustomAuthenticationForm,
     BookFilterForm,
-    FormModelForm
+    FormModelForm,
+    ObjectModelForm
 )
-from .models import Book, Form
+from .models import Book, Form, Object
 
 
 class Index(generic.ListView):
+    template_name = 'index.html'
     model = Form
+    context_object_name = 'forms'
+    queryset = Form.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(Index, self).get_context_data(**kwargs)
+        context['objects'] = Object.objects.all()
+        return context
+    '''model = Form
     context_object_name = 'forms'
     template_name = 'index.html'
 
@@ -33,7 +46,9 @@ class Index(generic.ListView):
         qs = super().get_queryset()
         if 'type' in self.request.GET:
             qs = qs.filter(book_type=int(self.request.GET['type']))
-        return qs
+        return qs'''
+
+
 
 class BookFilterView(BSModalFormView):
     template_name = 'examples/filter_book.html'
@@ -107,7 +122,16 @@ def books(request):
 ######## Forms ########
 
 class Forms(generic.ListView):
+    template_name = 'forms.html'
     model = Form
+    context_object_name = 'forms'
+    queryset = Form.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(Forms, self).get_context_data(**kwargs)
+        context['objects'] = Object.objects.all()
+        return context
+    '''model = Form
     context_object_name = 'forms'
     template_name = 'forms.html'
 
@@ -115,12 +139,13 @@ class Forms(generic.ListView):
         qs = super().get_queryset()
         if 'type' in self.request.GET:
             qs = qs.filter(form_type=int(self.request.GET['type']))
-        return qs
+        return qs'''
+
 
 class FormCreateView(BSModalCreateView):
     template_name = 'examples/create_form.html'
     form_class = FormModelForm
-    success_message = 'Success: Form was created.'
+    success_message = 'Success: Instance was created.'
     success_url = reverse_lazy('forms_page')
 
     def form_valid(self, form):
@@ -134,7 +159,7 @@ class FormUpdateView(BSModalUpdateView):
     model = Form
     template_name = 'examples/update_form.html'
     form_class = FormModelForm
-    success_message = 'Success: Form was updated.'
+    success_message = 'Success: Instance was updated.'
     success_url = reverse_lazy('forms_page')
 
 
@@ -146,17 +171,68 @@ class FormReadView(BSModalReadView):
 class FormDeleteView(BSModalDeleteView):
     model = Form
     template_name = 'examples/delete_form.html'
-    success_message = 'Success: Form was deleted.'
+    success_message = 'Success: Instance was deleted.'
     success_url = reverse_lazy('forms_page')
 
 def forms(request):
     data = dict()
     if request.method == 'GET':
         forms = Form.objects.all()
+
         data['table'] = render_to_string(
             '_forms_table.html',
             {'forms': forms},
             request=request
         )
+        objects(request)
         return JsonResponse(data)
 
+
+######## Object ########
+
+class ObjectCreateView(BSModalCreateView):
+    template_name = 'examples/create_object.html'
+    form_class = ObjectModelForm
+    success_message = 'Success: Object was created.'
+    success_url = reverse_lazy('forms_page')
+
+    def form_valid(self, form, *args,**kwargs):
+        print(str(self.kwargs['pk']))
+        if not self.request.is_ajax():
+            form = form.save(commit=False)
+            form.form = Form.objects.get(pk=self.kwargs['pk'])
+            form.created_by = self.request.user  # use your own profile here
+            form.save()
+        return HttpResponseRedirect(self.success_url)
+
+class ObjectUpdateView(BSModalUpdateView):
+    model = Object
+    template_name = 'examples/update_object.html'
+    form_class = ObjectModelForm
+    success_message = 'Success: Object was updated.'
+    success_url = reverse_lazy('forms_page')
+
+
+class ObjectReadView(BSModalReadView):
+    model = Object
+    template_name = 'examples/read_object.html'
+
+
+class ObjectDeleteView(BSModalDeleteView):
+    model = Object
+    template_name = 'examples/delete_object.html'
+    success_message = 'Success: Object was deleted.'
+    success_url = reverse_lazy('forms_page')
+
+
+def objects(request):
+    data = dict()
+    if request.method == 'GET':
+        objects = Object.objects.all()
+        data['table'] = render_to_string(
+            '_forms_table.html',
+            {'objects': objects},
+            request=request
+        )
+        print( JsonResponse(data))
+        return JsonResponse(data)

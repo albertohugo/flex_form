@@ -1,7 +1,7 @@
 {% load widget_tweaks %}
 {% load static %}
 <div class="modal-header">
-  <h3 class="modal-title">Instance details</h3>
+  <h3 class="modal-title">Object details</h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,12 +10,12 @@
 <div class="modal-body">
 
   <div class="">
-    Name:
-    {{ form.title }}
+    Label:
+    {{ object.label }}
   </div>
   <div class="">
     Status:
-    {% if form.status == True %}
+    {% if object.type == 1 %}
         <img src="{% static "open-iconic-master/svg/circle-check_w.svg" %}" alt="Activated" width="15" height="15">
         {% else %}
        <img src="{% static "open-iconic-master/svg/circle-x_w.svg" %}" alt="Deactivated" width="15" height="15">
@@ -24,11 +24,11 @@
   </div>
   <div class="">
     Created by:
-    {{ form.created_by }}
+    {{ object.created_by }}
   </div>
   <div class="">
     Created at:
-    {{ form.timestamp }}
+    {{ object.timestamp }}
   </div>
 
 </div>
