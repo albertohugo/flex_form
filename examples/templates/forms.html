@@ -3,7 +3,7 @@
 {% block content %}
 
   {% include "_modal.html" %}
-    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
     <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -12,14 +12,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="../">Books</a>
+                <a class="nav-link" href="../">Home</a>
             </li>
              <li class="nav-item active">
-                <a class="nav-link" href="">Forms</a>
+                <a class="nav-link" href="">Instances</a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="/" >Tab #2<span class="sr-only">(current)</span></a>
-            </li>
+
         </ul>
 
 
@@ -30,10 +28,10 @@
                 <strong>{{ user }}</strong>
               </span>
 
-              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-danger" role="button">Log out</a>
+              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light" role="button">Log out</a>
 
             {% else %}
-              <button id="signup-btn" class="btn btn-primary" type="button" name="button">Sign up</button><br>
+              <button id="signup-btn" class="btn btn-light" type="button" name="button">Sign up</button><br>
               <input class="btn btn-outline-light"type="button" value="Login" id="login-btn" />
             {% endif %}
 
@@ -47,8 +45,8 @@
       <div class="col">
         <div class="row">
           <div class="col-12 mb-3">
-            <button id="create-form" class="btn btn-primary" type="button" name="button">
-              <span class="fa fa-plus mr-2"></span>Create form
+            <button id="create-form" class="btn btn-secondary"  style="background-color: #1b6ca8;" type="button" name="button">
+              <span class="fa fa-plus mr-2"></span>New Instance
             </button>
             <!--button id="filter-book" class="bs-modal btn btn-primary" type="button" name="button" data-form-url="{% url 'filter_book' %}">
               <span class="fa fa-filter mr-2"></span>Filter form
@@ -91,7 +89,7 @@
             "<div ",
             "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
             "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
-            "Success: Form was updated.",
+            "Success: Instance was updated.",
             "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
             "<span aria-hidden='true'>&times;</span>",
             "</button>",
@@ -105,9 +103,9 @@
             $(".update-form").each(function () {
               $(this).modalForm({
                 formURL: $(this).data("form-url"),
-                asyncUpdate: true,
+                asyncUpdate: false,
                 asyncSettings: {
-                  closeOnSubmit: false,
+                  closeOnSubmit: true,
                   successMessage: asyncSuccessMessage,
                   dataUrl: "/forms/",
                   dataElementId: "#forms-table",
@@ -116,8 +114,42 @@
                 }
               });
             });
+
           }
           updateFormModalForm();
+
+           var asyncSuccessMessageObject = [
+            "<div ",
+            "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+            "Success: Object was updated.",
+            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+            "<span aria-hidden='true'>&times;</span>",
+            "</button>",
+            "</div>",
+            "<script>",
+            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            "<\/script>"
+          ].join("");
+
+           function updateObjectModalForm() {
+            $(".update-object").each(function () {
+              $(this).modalForm({
+                formURL: $(this).data("form-url"),
+                asyncUpdate: false,
+                asyncSettings: {
+                  closeOnSubmit: true,
+                  successMessage: asyncSuccessMessageObject,
+                  dataUrl: "/forms/",
+                  dataElementId: "#forms-table",
+                  dataKey: "table",
+                  addModalFormFunction: updateObjectModalForm
+                }
+              });
+            });
+          }
+
+          updateObjectModalForm();
 
           // Read and Delete form buttons open modal with id="modal"
           // The formURL is retrieved from the data of the element

@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+{% load static %}
+<div class="modal-header">
+  <h3 class="modal-title">Object details</h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+
+  <div class="">
+    Label:
+    {{ object.label }}
+  </div>
+  <div class="">
+    Status:
+    {% if object.type == 1 %}
+        <img src="{% static "open-iconic-master/svg/circle-check_w.svg" %}" alt="Activated" width="15" height="15">
+        {% else %}
+       <img src="{% static "open-iconic-master/svg/circle-x_w.svg" %}" alt="Deactivated" width="15" height="15">
+      {% endif %}
+
+  </div>
+  <div class="">
+    Created by:
+    {{ object.created_by }}
+  </div>
+  <div class="">
+    Created at:
+    {{ object.timestamp }}
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+

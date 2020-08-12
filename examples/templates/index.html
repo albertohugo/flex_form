@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
   {% include "_modal.html" %}
-    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
     <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -12,13 +12,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Books</a>
+                <a class="nav-link" href="/">Home</a>
             </li>
              <li class="nav-item">
-                <a class="nav-link" href="forms_page">Forms</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="/" >Tab #2<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="forms_page">Instances</a>
             </li>
         </ul>
 
@@ -30,10 +27,10 @@
                 <strong>{{ user }}</strong>
               </span>
 
-              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-danger" role="button">Log out</a>
+              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light" role="button">Log out</a>
 
             {% else %}
-              <button id="signup-btn" class="btn btn-primary" type="button" name="button">Sign up</button><br>
+              <button id="signup-btn" class="btn btn-light" type="button" name="button">Sign up</button><br>
               <input class="btn btn-outline-light"type="button" value="Login" id="login-btn" />
             {% endif %}
 
@@ -42,29 +39,56 @@
         </form>
     </div>
 </nav>
-  <div class="container mt-3">
-    <div class="row">
-      <div class="col">
-        <div class="row">
-          <div class="col-12 mb-3">
-            <button id="create-book" class="btn btn-primary" type="button" name="button">
-              <span class="fa fa-plus mr-2"></span>Create book
-            </button>
-            <button id="filter-book" class="bs-modal btn btn-primary" type="button" name="button" data-form-url="{% url 'filter_book' %}">
-              <span class="fa fa-filter mr-2"></span>Filter books
-            </button>
-          </div>
-          <div class="col-12 mb-3">
-            {% if books %}
-              {% include "_books_table.html" %}
-            {% else %}
-              <p class="no-books text-primary">No books added yet.</p>
-            {% endif %}
-          </div>
-        </div>
-      </div>
+
+<div class="container">
+        <div class="section-fluid ">
+  <br />
+
+          <div class="card-columns">
+            {% for form in forms %}
+              {% if form.status == True %}
+               <div class="card  bg-light  "  >
+
+                       <div class="card-header text-white" style="background-color: #1b6ca8;">  {{ form.title }}</div>
+
+                   <table class="table  table-bordered table-hover   table-sm" style="margin-bottom: 0px;">
+                              <!--thead >
+                              <tr>
+                                <th class="text-center">Label</th>
+                                <th class="text-center" scope="col">Type</th>
+                              </tr>
+                              </thead-->
+                                <tbody>
+                                     {% for object in objects %}
+                                            {% if form == object.form %}
+                                                     <tr>
+                                                        <td class="text-center">{{ object.label }}</td>
+                                                        <td class="text-center">
+                                                          {% if object.type == 1 %}
+                                                            <img src="{% static "open-iconic-master/svg/text.svg" %}" alt="Activated" width="10" height="10">
+                                                            {% else %}
+                                                           <img src="{% static "open-iconic-master/svg/calculator.svg" %}" alt="Deactivated" width="10" height="10">
+                                                          {% endif %}
+                                                         </td>
+                                                     </tr>
+                                            {% endif %}
+                                     {% endfor %}
+                             </tbody>
+                   </table>
+
+                   <div class="card-footer">
+                         <small class="text-muted">Created in {{ form.timestamp }} by {{ form.created_by }}</small>
+                   </div>
+
+              </div>
+               {% endif %}
+              {% endfor %}
+
+
+
     </div>
   </div>
+
 
 {% endblock content %}
 

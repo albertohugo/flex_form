@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 from bootstrap_modal_forms.forms import BSModalModelForm, BSModalForm
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
-from .models import Book, Form
-
+from .models import Book, Form, Object
+from django.forms import TextInput
 
 class BookFilterForm(BSModalForm):
     type = forms.ChoiceField(choices=Book.BOOK_TYPES)
@@ -39,8 +39,16 @@ class CustomAuthenticationForm(AuthenticationForm):
 ##### Forms #######
 
 class FormModelForm(BSModalModelForm):
-
     class Meta:
+        labels = {
+            "title": "Name"
+        }
         model = Form
-        exclude = ['timestamp']
+        exclude = ['timestamp', 'created_by']
+
+class ObjectModelForm(BSModalModelForm):
+    class Meta:
+        model = Object
+        exclude = ['form','timestamp', 'created_by']
+
 
