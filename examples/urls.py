@@ -6,8 +6,10 @@ from . import views
 urlpatterns = [
     path('', views.Index.as_view(), name='index'),
     path('forms_page/', views.Forms.as_view(), name='forms_page'),
+    path('send_form/', views.send_form, name='send_form'),
     path('forms/', views.forms, name='forms'),
     path('objects/', views.objects, name='objects'),
+    path('open_form/<int:pk>', views.FormOpenView.as_view(), name='open_form'),
     path('create_form/', views.FormCreateView.as_view(), name='create_form'),
     path('update_form/<int:pk>', views.FormUpdateView.as_view(), name='update_form'),
     path('read_form/<int:pk>', views.FormReadView.as_view(), name='read_form'),

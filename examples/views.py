@@ -23,10 +23,10 @@ from .forms import (
     CustomAuthenticationForm,
     BookFilterForm,
     FormModelForm,
-    ObjectModelForm
+    ObjectModelForm,
+    OpenModelForm
 )
-from .models import Book, Form, Object
-
+from .models import Book, Form, Object, Result
 
 class Index(generic.ListView):
     template_name = 'index.html'
@@ -187,6 +187,26 @@ def forms(request):
         objects(request)
         return JsonResponse(data)
 
+class FormOpenView(BSModalReadView):
+    model = Form
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['objects'] = Object.objects.all()
+        return context
+    template_name = 'examples/open_form.html'
+
+def send_form(request):
+    print("AA")
+    if request.method == "POST":
+        print("POST")
+        return HttpResponseRedirect('../')
+    elif request.method == "GET":
+        print("GET")
+        return HttpResponseRedirect('../')
+    else:
+        return HttpResponseRedirect('../')
 
 ######## Object ########
 
@@ -236,3 +256,4 @@ def objects(request):
         )
         print( JsonResponse(data))
         return JsonResponse(data)
+

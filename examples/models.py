@@ -37,3 +37,10 @@ class Object(models.Model):
     type = models.PositiveSmallIntegerField(choices=OBJECT_TYPES)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
+
+class Result(models.Model):
+    form = models.ForeignKey('form', on_delete=models.CASCADE)
+    object = models.ForeignKey('object', on_delete=models.CASCADE)
+    value = models.CharField(max_length=50)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    timestamp = models.DateField(auto_now_add=True, auto_now=False)

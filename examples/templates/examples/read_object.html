@@ -14,13 +14,12 @@
     {{ object.label }}
   </div>
   <div class="">
-    Status:
-    {% if object.type == 1 %}
-        <img src="{% static "open-iconic-master/svg/circle-check_w.svg" %}" alt="Activated" width="15" height="15">
-        {% else %}
-       <img src="{% static "open-iconic-master/svg/circle-x_w.svg" %}" alt="Deactivated" width="15" height="15">
-      {% endif %}
-
+    Type:
+   {% if object.type == 1 %}
+                    <img src="{% static "open-iconic-master/svg/text.svg" %}" alt="Activated" width="15" height="15">
+   {% else %}
+                    <img src="{% static "open-iconic-master/svg/calculator.svg" %}" alt="Deactivated" width="15" height="15">
+   {% endif %}
   </div>
   <div class="">
     Created by:
