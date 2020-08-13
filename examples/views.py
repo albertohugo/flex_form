@@ -7,6 +7,7 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 import json
 from django.http import JsonResponse
+from django.core import serializers
 
 from bootstrap_modal_forms.generic import (
     BSModalLoginView,
@@ -26,7 +27,7 @@ from .forms import (
     ObjectModelForm,
     OpenModelForm
 )
-from .models import Book, Form, Object, Result
+from .models import Book, Form, Object, Result, IdResult
 
 class Index(generic.ListView):
     template_name = 'index.html'
@@ -187,26 +188,63 @@ def forms(request):
         objects(request)
         return JsonResponse(data)
 
-class FormOpenView(BSModalReadView):
+
+def open_form(request):
+    pk = request.GET.get('pk', '') or ''
+    form = Form.objects.filter(id=pk)
+    objects = Object.objects.filter(form__in=form)
+    #print(serializers.serialize("json", form))
+    #print(serializers.serialize("json", objects))
+
+    if request.method == "POST":
+        IdResult.objects.create(form=form.first())
+        for object in objects:
+            value = request.POST[pk + '_' + str(object.id)]
+            id_result = IdResult.objects.filter().last().id
+
+            Result.objects.create(form=form.first(), object=object, id_result=id_result ,value=value, created_by=request.user)
+        return HttpResponseRedirect('../')
+
+    return render(request, 'instance.html',
+                  {'form_title':form.get().title,
+                   'form_id': form.get().id,
+                   'objects':objects}
+                  )
+
+def open_list(request):
+    pk = request.GET.get('pk', '') or ''
+    id_result = request.GET.get('id_result', '') or ''
+    print(id_result)
+    if id_result != '':
+        Result.objects.filter(id_result__in=id_result).delete()
+        IdResult.objects.filter(id__in=id_result).delete()
+    form = Form.objects.filter(id=pk)
+    results = Result.objects.filter(form__in=form)
+    objects = Object.objects.filter(form__in=form)
+    id_results = IdResult.objects.filter(form__in=form)
+    #print(serializers.serialize("json", results))
+    #print(serializers.serialize("json", objects))
+
+
+    return render(request, 'instance_list.html',
+                  {'form_title':form.get().title,
+                   'results': results,
+                   'objects': objects,
+                   'form_id': form.get().id,
+                   'id_results': id_results
+                   }
+                  )
+
+class FormOpenView(generic.ListView):
+    template_name = 'instance.html'
     model = Form
+    context_object_name = 'forms'
+    queryset = Form.objects.all()
+
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
+        context = super(FormOpenView, self).get_context_data(**kwargs)
         context['objects'] = Object.objects.all()
         return context
-    template_name = 'examples/open_form.html'
-
-def send_form(request):
-    print("AA")
-    if request.method == "POST":
-        print("POST")
-        return HttpResponseRedirect('../')
-    elif request.method == "GET":
-        print("GET")
-        return HttpResponseRedirect('../')
-    else:
-        return HttpResponseRedirect('../')
 
 ######## Object ########
 

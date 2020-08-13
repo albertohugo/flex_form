@@ -38,9 +38,13 @@ class Object(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
 
+class IdResult(models.Model):
+    form = models.ForeignKey('form', on_delete=models.CASCADE)
+
 class Result(models.Model):
     form = models.ForeignKey('form', on_delete=models.CASCADE)
     object = models.ForeignKey('object', on_delete=models.CASCADE)
+    id_result = models.IntegerField(default=0)
     value = models.CharField(max_length=50)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
