@@ -1,1 +1,1 @@
-web gunicorn flex_form.wsgi --log-file -
+web gunicorn setup.wsgi --log-file -
