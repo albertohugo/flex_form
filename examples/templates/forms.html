@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+{% load static %}
   {% include "_modal.html" %}
     <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
     <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -17,26 +16,18 @@
              <li class="nav-item active">
                 <a class="nav-link" href="">Instances</a>
             </li>
-
         </ul>
-
-
         <form class="form-inline my-2 my-lg-0">
           {% if not user.is_anonymous %}
              <span class="nav-link" style="color:white">
                 Your are logged in as
                 <strong>{{ user }}</strong>
               </span>
-
               <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light" role="button">Log out</a>
-
             {% else %}
               <button id="signup-btn" class="btn btn-light" type="button" name="button">Sign up</button><br>
               <input class="btn btn-outline-light"type="button" value="Login" id="login-btn" />
             {% endif %}
-
-
-
         </form>
     </div>
 </nav>
@@ -45,9 +36,11 @@
       <div class="col">
         <div class="row">
           <div class="col-12 mb-3">
-            <button id="create-form" class="btn btn-secondary"  style="background-color: #1b6ca8;" type="button" name="button">
-              <span class="fa fa-plus mr-2"></span>New Instance
-            </button>
+               {% if not user.is_anonymous %}
+                    <button id="create-form" class="btn btn-secondary"  style="background-color: #1b6ca8;" type="button" name="button">
+                       + New Instance
+                    </button>
+               {% endif %}
             <!--button id="filter-book" class="bs-modal btn btn-primary" type="button" name="button" data-form-url="{% url 'filter_book' %}">
               <span class="fa fa-filter mr-2"></span>Filter form
             </button-->

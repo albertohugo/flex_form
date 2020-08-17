@@ -43,9 +43,11 @@
                         <div class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#{{ form.id }}" href="#{{ form.id }}">
                        + {{ form.title }}</div>
                        <div style="text-align:right; width:100%; padding:0;">
-                       <button type="button" class="btn btn-sm btn-secondary "  style="background-color: #393e46;" onclick="window.location.href='/open_form/?pk={{ form.id }}'">
-                             <img src="{% static "open-iconic-master/svg/document_w.svg" %}" alt="Activated" width="13" height="13">
-                        </button>
+                            {% if not user.is_anonymous %}
+                               <button type="button" class="btn btn-sm btn-secondary "  style="background-color: #393e46;" onclick="window.location.href='/open_form/?pk={{ form.id }}'">
+                                     <img src="{% static "open-iconic-master/svg/document_w.svg" %}" alt="Activated" width="13" height="13">
+                                </button>
+                           {% endif %}
                            <button type="button" class="btn btn-sm btn-secondary "  style="background-color: #393e46;" onclick="window.location.href='/open_list/?pk={{ form.id }}'">
                              <img src="{% static "open-iconic-master/svg/spreadsheet_w.svg" %}" alt="Activated" width="13" height="13">
                         </button>

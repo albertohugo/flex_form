@@ -44,7 +44,9 @@
               {% for object in objects %}
                 <th class="text-center" scope="col">{{ object.label }}</th>
                {% endfor %}
+              {% if not user.is_anonymous %}
                <th class="text-center" scope="col">Delete</th>
+              {% endif %}
           </tr>
       </thead>
       {% for ids in id_results %}
@@ -56,11 +58,13 @@
                       </td>
                     {% endif %}
                 {% endfor %}
+                {% if not user.is_anonymous %}
                     <td class="text-center">
                          <button type="button" class="btn btn-sm btn-secondary "  style="background-color: #393e46;" onclick="window.location.href='/open_list/?pk={{ form_id }}&id_result={{ ids.id }}'">
-                  <span class="fa fa-trash"></span>
+                 <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
                 </button>
                     </td>
+                {% endif %}
             </tr>
       {% endfor %}
 
