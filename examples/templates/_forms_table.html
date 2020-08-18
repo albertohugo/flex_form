@@ -2,15 +2,15 @@
 <table id="forms-table" class="table" style="margin-bottom: 0px;">
   <thead>
   <tr>
-    <th class="text-center" scope="col"></th>
+    <th class="text-center " scope="col"></th>
     <th class="text-center" scope="col">#</th>
-    <th class="text-center" scope="col">Id</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">Id</th>
     <th class="text-center" scope="col">Name</th>
-    <th class="text-center" scope="col">Created by</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">Created by</th>
     <th class="text-center" scope="col">Status</th>
-    <th class="text-center" scope="col">Created at</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">Created at</th>
     {% if not user.is_anonymous %}
-    <th class="text-center" scope="col">Read / Update / Delete</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">Read / Update / Delete</th>
     <th class="text-center" scope="col">Object</th>
     {% endif %}
   </tr>
@@ -23,9 +23,9 @@
    <tr >
        <td class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#{{ form.id }}" href="#{{ form.id }}">+</td>
       <th class="text-center" scope="row">{{ forloop.counter }}</th>
-      <td class="text-center">{{ form.id }}</td>
+      <td class="text-center d-none d-lg-table-cell">{{ form.id }}</td>
       <td class="text-center">{{ form.title }}</td>
-      <td class="text-center">{{ form.created_by }}</td>
+      <td class="text-center d-none d-lg-table-cell">{{ form.created_by }}</td>
       <td class="text-center">
        {% if form.status == True %}
         <img src="{% static "open-iconic-master/svg/circle-check_w.svg" %}" alt="Activated" width="15" height="15">
@@ -34,9 +34,9 @@
       {% endif %}
 
       </td>
-      <td class="text-center">{{ form.timestamp }}</td>
+      <td class="text-center d-none d-lg-table-cell">{{ form.timestamp }}</td>
       {% if not user.is_anonymous %}
-       <td class="text-center">
+       <td class="text-center d-none d-lg-table-cell">
         <!-- Read form buttons -->
 
 
@@ -63,21 +63,25 @@
     <tr class="hide-table-padding" style="padding: 0px;">
         <td class="card-footer" colspan="10"  style="padding: 0px;">
         <div id={{ form.id }} class="collapse in p-3" >
+            <table  class="table table-sm" style="margin-bottom: 0px;">
+              <thead>
+              <tr class="table-active">
+                <th class="text-center" scope="col" width="50%">Object</th>
+                   {% if not user.is_anonymous %}
+                <th class="text-center  d-none d-lg-table-cell" scope="col" width="50%">Read / Update / Delete</th>
+                    {% endif %}
+               </tr>
+              </thead>
+                </table>
             {% for object in objects %}
                 {% if form == object.form %}
-            <div class="row mt-1" style="padding-left: 5%;">
-            <div class="col-2">
-
-                 {% if object.type == 1 %}
-                    <img src="{% static "open-iconic-master/svg/text.svg" %}" alt="Activated" width="15" height="15">
-                 {% else %}
-                    <img src="{% static "open-iconic-master/svg/calculator.svg" %}" alt="Deactivated" width="15" height="15">
-                 {% endif %}
-                 {{ object.label }}
-            </div>
-                {% if not user.is_anonymous %}
-            <div class="col-2">
-                <button type="button" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #393e46;" data-form-url="{% url 'read_object' object.pk %}">
+ <table  class="table table-sm  " style="margin-bottom: 0px;">
+                <tbody>
+                <tr>
+                    <td class="text-center" width="50%">{{ object.label }}</td>
+                    {% if not user.is_anonymous %}
+                    <td class="text-center  d-none d-lg-table-cell" width="50%">
+                        <button type="button" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #393e46;" data-form-url="{% url 'read_object' object.pk %}">
                   <img src="{% static "open-iconic-master/svg/eye_w.svg" %}" width="13" height="13">
                 </button>
                 <!-- Update form buttons -->
@@ -88,9 +92,11 @@
                 <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary" data-form-url="{% url 'delete_object' object.pk %}">
                   <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
                 </button>
-            </div>
-                {% endif %}
-          </div>
+                    </td>
+                    {% endif %}
+                </tr>
+ </tbody>
+  </table>
             {% endif %}
               {% endfor %}
         </div>

@@ -1,0 +1,20 @@
+Local development
+
+    python manage.py makemigartions
+    python manage.py migrate
+    python manage.py runserver
+
+Run the app locally Heroku
+
+    python manage.py collectstatic
+    heroku local web -f Procfile.windows
+    heroku local web -> UNIX
+
+Push
+    git add .
+    git commit -m ""
+    git push
+
+PROD
+    Logging
+        heroku logs --source app --tail --app flexform
