@@ -33,8 +33,13 @@ class Index(generic.ListView):
     template_name = 'index.html'
     model = Form
     context_object_name = 'forms'
-    queryset = Form.objects.all()
+    #queryset = Form.objects.all()
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Form.objects.filter(created_by=self.request.user) | Form.objects.filter(private=False)
+        else:
+            return Form.objects.filter(private=False)
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
         context['objects'] = Object.objects.all()
@@ -126,8 +131,13 @@ class Forms(generic.ListView):
     template_name = 'forms.html'
     model = Form
     context_object_name = 'forms'
-    queryset = Form.objects.all()
+    #queryset = Form.objects.all()
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Form.objects.filter(created_by=self.request.user) | Form.objects.filter(private=False)
+        else:
+            return Form.objects.filter(private=False)
     def get_context_data(self, **kwargs):
         context = super(Forms, self).get_context_data(**kwargs)
         context['objects'] = Object.objects.all()

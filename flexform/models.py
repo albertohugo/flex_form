@@ -21,7 +21,8 @@ class Book(models.Model):
 
 class Form(models.Model):
     title = models.CharField(max_length=50)
-    status = models.BooleanField(default=False)
+    status = models.BooleanField(default=True)
+    private = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
 

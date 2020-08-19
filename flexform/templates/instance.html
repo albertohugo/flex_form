@@ -29,7 +29,7 @@
               </span>
               <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light" role="button">Log out</a>
                 {% else %}
-                  <button id="signup-btn" class="btn btn-light" type="button" name="button">Sign up</button><br>
+                  <button id="signup-btn" class="btn btn-light" type="button" name="button">Sign up</button>&nbsp;
                   <input class="btn btn-outline-light"type="button" value="Login" id="login-btn" />
                 {% endif %}
         </form>
@@ -45,7 +45,9 @@
             {% for object in objects %}
                 <tr class="min">
                   <td style="text-align: right"><label for="your_name">{{ object.label }} </label></td>
-                  <td style="width:0%"><input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}"></td>
+                  <td style="width:0%">
+                      <input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}">
+                  </td>
                 </tr>
             {% endfor %}
 

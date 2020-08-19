@@ -20,7 +20,14 @@
         {% else %}
        <img src="{% static "open-iconic-master/svg/circle-x_w.svg" %}" alt="Deactivated" width="15" height="15">
       {% endif %}
-
+  </div>
+  <div class="">
+    Visibility:
+    {% if form.private == True %}
+        <img src="{% static "open-iconic-master/svg/lock-locked.svg" %}" alt="Activated" width="15" height="15">
+        {% else %}
+       <img src="{% static "open-iconic-master/svg/lock-unlocked.svg" %}" alt="Deactivated" width="15" height="15">
+      {% endif %}
   </div>
   <div class="">
     Created by:
