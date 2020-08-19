@@ -1,6 +1,6 @@
 from selenium.webdriver.support.select import Select
 
-from examples.models import Book
+from flexform.models import Book
 from .base import FunctionalTest
 
 

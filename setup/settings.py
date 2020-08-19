@@ -17,7 +17,7 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'django_tables2',
     'widget_tweaks',
-    'examples',
+    'flexform',
     'tests',
 ]
 
@@ -38,7 +38,7 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'examples/templates'), ],
+        'DIRS': [os.path.join(BASE_DIR, 'flexform/templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
