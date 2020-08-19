@@ -36,28 +36,29 @@
     </div>
 </nav>
 <div class="container">
-
         <br/>
         <h3>New {{ form_title }}</h3>
         <form action="" method="post">
               {% csrf_token %}
-                 <table class="table center table-borderless table-sm " style="margin-bottom: 0px;">
-                    {% for object in objects %}
-                        <tr class="min">
-                          <td style="text-align: right"><label for="your_name">{{ object.label }} </label></td>
-                          <td style="width:0%">
-                              <input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}">
-                          </td>
-                        </tr>
-            {% endfor %}
-                    </table>
-             <div class="modal-footer">
-             <button type="submit" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #1b6ca8;">
-                  Send
-             </button>
-              </div>
+            {% if objects %}
 
-        </form>
+                    {% for object in objects %}
+                        {{ object.label }}
+                        <input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
+                        <small class="form-text text-muted">{{ object.description }}</small>
+                    {% endfor %}
+
+                        <br>
+                     <div class="modal-footer">
+                     <button type="submit" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #1b6ca8;">
+                          Send
+                     </button>
+                 </div>
+            </form>
+          {% else %}
+            <p class="no-forms text-primary">No objects yet.</p>
+          {% endif %}
+
   </div>
 
 {% endblock content %}

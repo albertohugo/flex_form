@@ -19,7 +19,11 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'flexform',
     'tests',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap', 'uni_form', 'bootstrap3', 'bootstrap4', 'materialize_css_forms', )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

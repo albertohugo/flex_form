@@ -35,6 +35,7 @@ class Object(models.Model):
     )
     form = models.ForeignKey('form', on_delete=models.CASCADE)
     label = models.CharField(max_length=50)
+    description = models.CharField(max_length=100, default="",  blank = True)
     type = models.PositiveSmallIntegerField(choices=OBJECT_TYPES)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)

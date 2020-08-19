@@ -44,16 +44,6 @@ class Index(generic.ListView):
         context = super(Index, self).get_context_data(**kwargs)
         context['objects'] = Object.objects.all()
         return context
-    '''model = Form
-    context_object_name = 'forms'
-    template_name = 'index.html'
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        if 'type' in self.request.GET:
-            qs = qs.filter(book_type=int(self.request.GET['type']))
-        return qs'''
-
 
 
 class BookFilterView(BSModalFormView):
@@ -142,16 +132,6 @@ class Forms(generic.ListView):
         context = super(Forms, self).get_context_data(**kwargs)
         context['objects'] = Object.objects.all()
         return context
-    '''model = Form
-    context_object_name = 'forms'
-    template_name = 'forms.html'
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        if 'type' in self.request.GET:
-            qs = qs.filter(form_type=int(self.request.GET['type']))
-        return qs'''
-
 
 class FormCreateView(BSModalCreateView):
     template_name = 'flexform/create_form.html'
@@ -226,8 +206,8 @@ def open_list(request):
     id_result = request.GET.get('id_result', '') or ''
     print(id_result)
     if id_result != '':
-        Result.objects.filter(id_result__in=id_result).delete()
-        IdResult.objects.filter(id__in=id_result).delete()
+        Result.objects.filter(id_result=id_result).delete()
+        IdResult.objects.filter(id=id_result).delete()
     form = Form.objects.filter(id=pk)
     results = Result.objects.filter(form__in=form)
     objects = Object.objects.filter(form__in=form)
@@ -238,6 +218,7 @@ def open_list(request):
 
     return render(request, 'instance_list.html',
                   {'form_title':form.get().title,
+                   'form_user': form.get().created_by,
                    'results': results,
                    'objects': objects,
                    'form_id': form.get().id,
