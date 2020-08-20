@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 {% load render_table from django_tables2 %}
-
+{% load i18n %}
   {% include "_modal.html" %}
     <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
     <a class="navbar-brand" href="">Flexform</a>
@@ -12,32 +12,32 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/">{% trans 'Home' %}</a>
             </li>
              <li class="nav-item">
-                <a class="nav-link" href="../forms_page">Instances</a>
+                <a class="nav-link" href="../forms_page">{% trans 'Instances' %}</a>
             </li>
              <li class="nav-item active">
-                <a class="nav-link" href="">New {{ form_title }}</a>
+                <a class="nav-link" href=""> {{ form_title }}</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
           {% if not user.is_anonymous %}
              <span class="nav-link" style="color:white">
-                Your are logged in as
+                {% trans 'Your are logged in as' %}
                 <strong>{{ user }}</strong>
               </span>
-              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light" role="button">Log out</a>
+              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light" role="button">{% trans 'Log out' %}</a>
                 {% else %}
-                  <button id="signup-btn" class="btn btn-light" type="button" name="button">Sign up</button>&nbsp;
-                  <input class="btn btn-outline-light"type="button" value="Login" id="login-btn" />
+                  <button id="signup-btn" class="btn btn-light" type="button" name="button">{% trans 'Sign up' %}</button>&nbsp;
+                  <input class="btn btn-outline-light"type="button" value={% trans 'Log in' %} id="login-btn" />
                 {% endif %}
         </form>
     </div>
 </nav>
 <div class="container">
         <br/>
-        <h3>New {{ form_title }}</h3>
+        <h3>{{ form_title }}</h3>
         <form action="" method="post">
               {% csrf_token %}
             {% if objects %}
@@ -51,12 +51,12 @@
                         <br>
                      <div class="modal-footer">
                      <button type="submit" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #1b6ca8;">
-                          Send
+                          {% trans 'Send' %}
                      </button>
                  </div>
             </form>
           {% else %}
-            <p class="no-forms text-primary">No objects yet.</p>
+            <p class="no-forms text-primary">{% trans 'No objects yet.' %}</p>
           {% endif %}
 
   </div>

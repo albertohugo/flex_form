@@ -18,3 +18,7 @@ Push
 PROD
     Logging
         heroku logs --source app --tail --app flexform
+
+TRANSLATE
+    python manage.py makemessages -l pt
+    python manage.py compilemessages

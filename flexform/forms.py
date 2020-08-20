@@ -6,6 +6,7 @@ from bootstrap_modal_forms.forms import BSModalModelForm, BSModalForm
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
 from .models import Book, Form, Object, Result
 from django.forms import TextInput
+from django.utils.translation import ugettext_lazy as _
 
 class BookFilterForm(BSModalForm):
     type = forms.ChoiceField(choices=Book.BOOK_TYPES)
@@ -41,13 +42,20 @@ class CustomAuthenticationForm(AuthenticationForm):
 class FormModelForm(BSModalModelForm):
     class Meta:
         labels = {
-            "title": "Name"
+            "title": _(u'Name'),
+            "status": _(u'Status'),
+            "private": _(u'Privado')
         }
         model = Form
         exclude = ['timestamp', 'created_by']
 
 class ObjectModelForm(BSModalModelForm):
     class Meta:
+        labels = {
+            "label": _(u'Name'),
+            "description": _(u'Description'),
+            "type": _(u'Type')
+        }
         model = Object
         exclude = ['form','timestamp', 'created_by']
 

@@ -1,0 +1,219 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-20 11:12+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\flexform\templates\_footer.html:5
+msgid "Powered by "
+msgstr "Distribuído por "
+
+#: .\flexform\templates\_forms_table.html:8
+msgid "Id"
+msgstr "Id"
+
+#: .\flexform\templates\_forms_table.html:9
+#: .\flexform\templates\flexform\read_form.html:14
+msgid "Name"
+msgstr "Nome"
+
+#: .\flexform\templates\_forms_table.html:10
+#: .\flexform\templates\flexform\read_form.html:34
+#: .\flexform\templates\flexform\read_object.html:30
+msgid "Created by"
+msgstr "Criado por "
+
+#: .\flexform\templates\_forms_table.html:11
+#: .\flexform\templates\flexform\read_form.html:18
+msgid "Status"
+msgstr "Ativo"
+
+#: .\flexform\templates\_forms_table.html:12
+#: .\flexform\templates\flexform\read_form.html:26
+msgid "Visibility"
+msgstr "Visibilidade"
+
+#: .\flexform\templates\_forms_table.html:13
+#: .\flexform\templates\flexform\read_form.html:38
+#: .\flexform\templates\flexform\read_object.html:34
+msgid "Created at"
+msgstr "Criado em "
+
+#: .\flexform\templates\_forms_table.html:15
+#: .\flexform\templates\_forms_table.html:72
+msgid "Actions"
+msgstr "Ações"
+
+#: .\flexform\templates\_forms_table.html:70
+#: .\flexform\templates\flexform\create_object.html:8
+#: .\flexform\templates\flexform\delete_object.html:7
+#: .\flexform\templates\flexform\read_object.html:5
+#: .\flexform\templates\flexform\update_object.html:7
+msgid "Object"
+msgstr "Objeto"
+
+#: .\flexform\templates\flexform\create_form.html:7
+#: .\flexform\templates\flexform\create_form.html:40
+#: .\flexform\templates\flexform\create_object.html:8
+#: .\flexform\templates\flexform\create_object.html:42
+msgid "Create"
+msgstr "Criar"
+
+#: .\flexform\templates\flexform\create_form.html:7
+#: .\flexform\templates\flexform\delete_form.html:7
+#: .\flexform\templates\flexform\read_form.html:5
+#: .\flexform\templates\flexform\update_form.html:8
+#: .\flexform\templates\forms.html:47
+msgid "Instance"
+msgstr "Instância"
+
+#: .\flexform\templates\flexform\delete_form.html:7
+#: .\flexform\templates\flexform\delete_form.html:19
+#: .\flexform\templates\flexform\delete_object.html:7
+#: .\flexform\templates\flexform\delete_object.html:19
+msgid "Delete"
+msgstr "Remover"
+
+#: .\flexform\templates\flexform\delete_form.html:14
+msgid "Are you sure you want to delete instance with name"
+msgstr "Você tem certeza que quer apagar a instância com o nome"
+
+#: .\flexform\templates\flexform\delete_object.html:14
+msgid "Are you sure you want to delete object with label"
+msgstr "Você tem certeza que quer apagar a objeto com o nome"
+
+#: .\flexform\templates\flexform\login.html:7
+#: .\flexform\templates\flexform\login.html:35
+#: .\flexform\templates\forms.html:35 .\flexform\templates\index.html:35
+#: .\flexform\templates\instance.html:33
+#: .\flexform\templates\instance_list.html:32
+msgid "Log in"
+msgstr "Entrar"
+
+#: .\flexform\templates\flexform\open_form.html:26
+msgid "Send"
+msgstr "Enviar"
+
+#: .\flexform\templates\flexform\read_form.html:5
+#: .\flexform\templates\flexform\read_object.html:5
+msgid "details"
+msgstr "detalhes"
+
+#: .\flexform\templates\flexform\read_form.html:45
+#: .\flexform\templates\flexform\read_object.html:41
+msgid "Close"
+msgstr "Fechar"
+
+#: .\flexform\templates\flexform\read_object.html:14
+msgid "Label"
+msgstr "Nome"
+
+#: .\flexform\templates\flexform\read_object.html:18
+msgid "Description"
+msgstr "Descrição"
+
+#: .\flexform\templates\flexform\read_object.html:22
+msgid "Type"
+msgstr "Tipo"
+
+#: .\flexform\templates\flexform\signup.html:7
+#: .\flexform\templates\flexform\signup.html:35
+#: .\flexform\templates\forms.html:34 .\flexform\templates\index.html:34
+#: .\flexform\templates\instance.html:32
+#: .\flexform\templates\instance_list.html:31
+msgid "Sign up"
+msgstr "Cadastrar"
+
+#: .\flexform\templates\flexform\update_form.html:8
+#: .\flexform\templates\flexform\update_form.html:42
+#: .\flexform\templates\flexform\update_object.html:7
+#: .\flexform\templates\flexform\update_object.html:40
+msgid "Update"
+msgstr "Atualizar"
+
+#: .\flexform\templates\forms.html:15 .\flexform\templates\index.html:15
+#: .\flexform\templates\instance.html:15
+#: .\flexform\templates\instance_list.html:14
+msgid "Home"
+msgstr "Início"
+
+#: .\flexform\templates\forms.html:18 .\flexform\templates\index.html:18
+#: .\flexform\templates\instance_list.html:17
+msgid "Instances"
+msgstr "Instâncias"
+
+#: .\flexform\templates\forms.html:29 .\flexform\templates\index.html:29
+#: .\flexform\templates\instance.html:27
+#: .\flexform\templates\instance_list.html:26
+msgid "Your are logged in as"
+msgstr "Você entrou como "
+
+#: .\flexform\templates\forms.html:32 .\flexform\templates\index.html:32
+#: .\flexform\templates\instance.html:30
+#: .\flexform\templates\instance_list.html:29
+msgid "Log out"
+msgstr "Sair"
+
+#: .\flexform\templates\forms.html:47
+msgid "New"
+msgstr "Nova"
+
+#: .\flexform\templates\forms.html:58 .\flexform\templates\index.html:97
+msgid "No instances added yet."
+msgstr "Ainda não foi adicionada nenhuma instância."
+
+#: .\flexform\templates\index.html:90
+msgid "Created in "
+msgstr "Criado em "
+
+#: .\flexform\templates\index.html:90
+msgid "by"
+msgstr "por"
+
+#: .\flexform\templates\instance.html:59
+msgid "No objects yet."
+msgstr "Ainda não foi adicionada nenhum objeto. "
+
+#: .\flexform\templates\instance_list.html:20
+#: .\flexform\templates\instance_list.html:40
+msgid "Results"
+msgstr "Resultados"
+
+#: .\flexform\templates\instance_list.html:42
+msgid "Warning!"
+msgstr "Aviso!"
+
+#: .\flexform\templates\instance_list.html:42
+msgid " Please rotate your device to enjoy the experience."
+msgstr " Por favor gire seu dispositivo para aproveitar a experiência."
+
+#: .\flexform\templates\instance_list.html:80
+msgid "No results yet."
+msgstr "Ainda não foi adicionado nenhum resultado."
+
+#: .\setup\settings.py:42
+msgid "English"
+msgstr "Inglês"
+
+#: .\setup\settings.py:43
+msgid "Portuguese"
+msgstr "Portugues"
+
+#, fuzzy
+#~| msgid "Instances"
+#~ msgid "New Instance"
+#~ msgstr "Nova Instância"

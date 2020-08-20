@@ -1,17 +1,18 @@
 {% load static %}
+{% load i18n %}
 <table id="forms-table" class="table" style="margin-bottom: 0px;">
   <thead>
   <tr>
     <th class="text-center " scope="col"></th>
     <th class="text-center" scope="col">#</th>
-    <th class="text-center d-none d-lg-table-cell" scope="col">Id</th>
-    <th class="text-center" scope="col">Name</th>
-    <th class="text-center d-none d-lg-table-cell" scope="col">Created by</th>
-    <th class="text-center d-none d-lg-table-cell" scope="col">Status</th>
-    <th class="text-center d-none d-lg-table-cell" scope="col">Visibility</th>
-    <th class="text-center d-none d-lg-table-cell" scope="col">Created at</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">{% trans 'Id' %}</th>
+    <th class="text-center" scope="col">{% trans 'Name' %}</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">{% trans 'Created by' %}</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">{% trans 'Status' %}</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">{% trans 'Visibility' %}</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">{% trans 'Created at' %}</th>
     {% if not user.is_anonymous %}
-    <th class="text-center " scope="col">Actions</th>
+    <th class="text-center " scope="col">{% trans 'Actions' %}</th>
     {% endif %}
   </tr>
   </thead>
@@ -66,9 +67,9 @@
             <table  class="table table-sm" style="margin-bottom: 0px;">
               <thead>
               <tr class="table-active">
-                <th class="text-center" scope="col" width="50%">Object</th>
+                <th class="text-center" scope="col" width="50%">{% trans 'Object' %}</th>
                    {% if not user.is_anonymous %}
-                <th class="text-center" scope="col" width="50%">Actions</th>
+                <th class="text-center" scope="col" width="50%">{% trans 'Actions' %}</th>
                     {% endif %}
                </tr>
               </thead>

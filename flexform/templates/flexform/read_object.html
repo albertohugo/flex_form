@@ -1,7 +1,8 @@
 {% load widget_tweaks %}
 {% load static %}
+{% load i18n %}
 <div class="modal-header">
-  <h3 class="modal-title">Object details</h3>
+  <h3 class="modal-title">{% trans 'Object' %} {% trans 'details' %}</h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,15 +11,15 @@
 <div class="modal-body">
 
   <div class="">
-    Label:
+    {% trans 'Label' %}:
     {{ object.label }}
   </div>
     <div class="">
-    Description:
+    {% trans 'Description' %}:
     {{ object.description }}
   </div>
   <div class="">
-    Type:
+     {% trans 'Type' %}:
    {% if object.type == 1 %}
                     <img src="{% static "open-iconic-master/svg/text.svg" %}" alt="Activated" width="15" height="15">
    {% else %}
@@ -26,17 +27,17 @@
    {% endif %}
   </div>
   <div class="">
-    Created by:
+     {% trans 'Created by' %}:
     {{ object.created_by }}
   </div>
   <div class="">
-    Created at:
+      {% trans 'Created at' %}:
     {{ object.timestamp }}
   </div>
 
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
 </div>
 
