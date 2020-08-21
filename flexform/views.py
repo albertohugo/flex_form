@@ -45,8 +45,9 @@ class Index(generic.ListView):
             return Form.objects.filter(private=False)
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
-        if FormMember.objects.filter(user=self.request.user):
-            context['objects'] = FormMember.objects.filter(user=self.request.user)
+        if self.request.user.is_authenticated:
+            if FormMember.objects.filter(user=self.request.user):
+                context['objects'] = FormMember.objects.filter(user=self.request.user)
         context['objects'] = Object.objects.all()
         return context
 
