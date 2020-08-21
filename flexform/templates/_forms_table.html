@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load define_action %}
 <table id="forms-table" class="table" style="margin-bottom: 0px;">
   <thead>
   <tr>
@@ -15,6 +16,7 @@
     {% endif %}
   </tr>
   </thead>
+
   {% for form in forms %}
   <tbody>
    <tr >
@@ -107,17 +109,27 @@
                 </button>
             </div>
             {% endif %}
-            <table  class="table table-sm" style="margin-bottom: 0px;">
-              <thead class="thead-dark">
-              <tr >
-                <th class="text-center" scope="col" width="33%">{% trans 'Object' %}</th>
-                  <th class="text-center" scope="col" width="33%">{% trans 'Type' %}</th>
-                   {% if not user.is_anonymous %}
-                <th class="text-center" scope="col" width="33%">{% trans 'Actions' %}</th>
+            {% define "unlocked" as object_lock %}
+            {% for object in objects%}
+                {% if form == object.form %}
+                    {% if object_lock == "unlocked" %}
+                        {% define "locked" as object_lock %}
+                             <table  class="table table-sm" style="margin-bottom: 0px;">
+                                  <thead class="thead-dark">
+                                  <tr >
+                                    <th class="text-center" scope="col" width="33%">{% trans 'Object' %}</th>
+                                      <th class="text-center" scope="col" width="33%">{% trans 'Type' %}</th>
+                                       {% if not user.is_anonymous %}
+                                    <th class="text-center" scope="col" width="33%">{% trans 'Actions' %}</th>
+                                        {% endif %}
+                                   </tr>
+                                  </thead>
+                                </table>
                     {% endif %}
-               </tr>
-              </thead>
-            </table>
+                {% endif %}
+            {% endfor %}
+
+
             {% for object in objects %}
                 {% if form == object.form %}
                     <table  class="table  table-striped table-bordered table-sm" style="margin-bottom: 0px;">
@@ -136,6 +148,22 @@
                                     <button type="button" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #393e46;" data-form-url="{% url 'read_object' object.pk %}">
                                       <img src="{% static "open-iconic-master/svg/eye_w.svg" %}" width="13" height="13">
                                     </button>
+                                    {% for member in members %}
+                                        {% if form == member.form%}
+                                            {% if user == member.user%}
+                                                {% if member.role == 1 and form.created_by != user %}
+                                                      <!-- Update form buttons -->
+                                                        <button type="button" class="update-object btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #393e46;" data-form-url="{% url 'update_object' object.pk %}">
+                                                          <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
+                                                        </button>
+                                                        <!-- Delete form buttons -->
+                                                        <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary d-none d-lg-table-cell" data-form-url="{% url 'delete_object' object.pk %}">
+                                                          <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
+                                                        </button>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                     {% if form.created_by == user %}
                                         <!-- Update form buttons -->
                                         <button type="button" class="update-object btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #393e46;" data-form-url="{% url 'update_object' object.pk %}">
@@ -179,17 +207,27 @@
                 </button>
             </div>
             {% endif %}
-            <table  class="table table-sm" style="margin-bottom: 0px;">
-              <thead>
-              <tr style="background-color: #158467;">
-                <th class="text-center text-white" scope="col" width="33%">{% trans 'Member' %}</th>
-                <th class="text-center text-white" scope="col" width="33%">{% trans 'Role' %}</th>
-                   {% if not user.is_anonymous %}
-                <th class="text-center text-white" scope="col" width="33%">{% trans 'Actions' %}</th>
+
+            {% define "unlocked" as member_lock %}
+            {% for member in members%}
+                {% if form == member.form %}
+                    {% if member_lock == "unlocked" %}
+                        {% define "locked" as member_lock %}
+                             <table  class="table table-sm" style="margin-bottom: 0px;">
+                                  <thead>
+                                  <tr style="background-color: #158467;">
+                                    <th class="text-center text-white" scope="col" width="33%">{% trans 'Member' %}</th>
+                                    <th class="text-center text-white" scope="col" width="33%">{% trans 'Role' %}</th>
+                                       {% if not user.is_anonymous %}
+                                    <th class="text-center text-white" scope="col" width="33%">{% trans 'Actions' %}</th>
+                                        {% endif %}
+                                   </tr>
+                                  </thead>
+                                </table>
                     {% endif %}
-               </tr>
-              </thead>
-            </table>
+                {% endif %}
+            {% endfor %}
+
             {% for member in members %}
                 {% if form == member.form %}
                     <table  class="table  table-striped table-bordered table-sm" style="margin-bottom: 0px;">
