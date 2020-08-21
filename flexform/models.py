@@ -26,6 +26,17 @@ class Form(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
 
+class FormMember(models.Model):
+    ADMIN = 1
+    MEMBER = 2
+    OBJECT_TYPES = (
+        (ADMIN, 'Admin'),
+        (MEMBER, 'Member'),
+    )
+    form = models.ForeignKey('form', on_delete=models.CASCADE)
+    role = models.PositiveSmallIntegerField(choices=OBJECT_TYPES)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+
 class Object(models.Model):
     STRING = 1
     NUMBER = 2

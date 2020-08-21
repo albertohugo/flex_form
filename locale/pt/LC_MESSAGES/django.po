@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-20 11:12+0100\n"
+"POT-Creation-Date: 2020-08-21 14:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,53 +18,100 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\flexform\templates\_footer.html:5
-msgid "Powered by "
-msgstr "Distribuído por "
-
+#: .\flexform\forms.py:45 .\flexform\forms.py:55
 #: .\flexform\templates\_forms_table.html:8
-msgid "Id"
-msgstr "Id"
-
-#: .\flexform\templates\_forms_table.html:9
 #: .\flexform\templates\flexform\read_form.html:14
 msgid "Name"
 msgstr "Nome"
 
-#: .\flexform\templates\_forms_table.html:10
+#: .\flexform\forms.py:46 .\flexform\templates\_forms_table.html:10
+#: .\flexform\templates\flexform\read_form.html:18
+msgid "Status"
+msgstr "Ativo"
+
+#: .\flexform\forms.py:47
+msgid "Privado"
+msgstr ""
+
+#: .\flexform\forms.py:56 .\flexform\templates\flexform\read_object.html:18
+msgid "Description"
+msgstr "Descrição"
+
+#: .\flexform\forms.py:57 .\flexform\templates\_forms_table.html:82
+#: .\flexform\templates\flexform\read_object.html:22
+msgid "Type"
+msgstr "Tipo"
+
+#: .\flexform\forms.py:71 .\flexform\forms.py:80
+#: .\flexform\templates\_forms_table.html:141
+#: .\flexform\templates\flexform\read_member.html:16
+msgid "Role"
+msgstr "Função"
+
+#: .\flexform\forms.py:72 .\flexform\templates\flexform\read_member.html:12
+msgid "User"
+msgstr "Utilizador"
+
+#: .\flexform\templates\_footer.html:5
+msgid "Powered by "
+msgstr "Distribuído por "
+
+#: .\flexform\templates\_forms_table.html:7
+msgid "Id"
+msgstr "Id"
+
+#: .\flexform\templates\_forms_table.html:9
 #: .\flexform\templates\flexform\read_form.html:34
 #: .\flexform\templates\flexform\read_object.html:30
 msgid "Created by"
 msgstr "Criado por "
 
 #: .\flexform\templates\_forms_table.html:11
-#: .\flexform\templates\flexform\read_form.html:18
-msgid "Status"
-msgstr "Ativo"
-
-#: .\flexform\templates\_forms_table.html:12
 #: .\flexform\templates\flexform\read_form.html:26
 msgid "Visibility"
 msgstr "Visibilidade"
 
-#: .\flexform\templates\_forms_table.html:13
+#: .\flexform\templates\_forms_table.html:12
 #: .\flexform\templates\flexform\read_form.html:38
 #: .\flexform\templates\flexform\read_object.html:34
 msgid "Created at"
 msgstr "Criado em "
 
-#: .\flexform\templates\_forms_table.html:15
-#: .\flexform\templates\_forms_table.html:72
+#: .\flexform\templates\_forms_table.html:14
+#: .\flexform\templates\_forms_table.html:84
+#: .\flexform\templates\_forms_table.html:143
 msgid "Actions"
 msgstr "Ações"
 
-#: .\flexform\templates\_forms_table.html:70
+#: .\flexform\templates\_forms_table.html:74
+#: .\flexform\templates\_forms_table.html:133
+msgid "New2"
+msgstr "Novo"
+
+#: .\flexform\templates\_forms_table.html:74
+#: .\flexform\templates\_forms_table.html:81
 #: .\flexform\templates\flexform\create_object.html:8
 #: .\flexform\templates\flexform\delete_object.html:7
 #: .\flexform\templates\flexform\read_object.html:5
 #: .\flexform\templates\flexform\update_object.html:7
 msgid "Object"
 msgstr "Objeto"
+
+#: .\flexform\templates\_forms_table.html:133
+#: .\flexform\templates\_forms_table.html:140
+#: .\flexform\templates\_forms_table.html:157
+#: .\flexform\templates\flexform\create_member.html:8
+#: .\flexform\templates\flexform\delete_member.html:7
+#: .\flexform\templates\flexform\read_member.html:5
+#: .\flexform\templates\flexform\read_member.html:20
+#: .\flexform\templates\flexform\update_member.html:7
+msgid "Member"
+msgstr "Membro"
+
+#: .\flexform\templates\_forms_table.html:155
+#: .\flexform\templates\flexform\read_member.html:18
+msgid "Administrator"
+msgstr "Administrador"
 
 #: .\flexform\templates\flexform\create_form.html:7
 #: .\flexform\templates\flexform\create_form.html:40
@@ -81,8 +128,14 @@ msgstr "Criar"
 msgid "Instance"
 msgstr "Instância"
 
+#: .\flexform\templates\flexform\create_member.html:8
+#: .\flexform\templates\flexform\create_member.html:42
+msgid "Add"
+msgstr "Adicionar"
+
 #: .\flexform\templates\flexform\delete_form.html:7
 #: .\flexform\templates\flexform\delete_form.html:19
+#: .\flexform\templates\flexform\delete_member.html:7
 #: .\flexform\templates\flexform\delete_object.html:7
 #: .\flexform\templates\flexform\delete_object.html:19
 msgid "Delete"
@@ -91,6 +144,14 @@ msgstr "Remover"
 #: .\flexform\templates\flexform\delete_form.html:14
 msgid "Are you sure you want to delete instance with name"
 msgstr "Você tem certeza que quer apagar a instância com o nome"
+
+#: .\flexform\templates\flexform\delete_member.html:14
+msgid "Are you sure you want to remove  "
+msgstr "Você tem certeza que quer remover "
+
+#: .\flexform\templates\flexform\delete_member.html:19
+msgid "Remove"
+msgstr "Remover"
 
 #: .\flexform\templates\flexform\delete_object.html:14
 msgid "Are you sure you want to delete object with label"
@@ -105,15 +166,18 @@ msgid "Log in"
 msgstr "Entrar"
 
 #: .\flexform\templates\flexform\open_form.html:26
+#: .\flexform\templates\instance.html:57
 msgid "Send"
 msgstr "Enviar"
 
 #: .\flexform\templates\flexform\read_form.html:5
+#: .\flexform\templates\flexform\read_member.html:5
 #: .\flexform\templates\flexform\read_object.html:5
 msgid "details"
 msgstr "detalhes"
 
 #: .\flexform\templates\flexform\read_form.html:45
+#: .\flexform\templates\flexform\read_member.html:26
 #: .\flexform\templates\flexform\read_object.html:41
 msgid "Close"
 msgstr "Fechar"
@@ -121,14 +185,6 @@ msgstr "Fechar"
 #: .\flexform\templates\flexform\read_object.html:14
 msgid "Label"
 msgstr "Nome"
-
-#: .\flexform\templates\flexform\read_object.html:18
-msgid "Description"
-msgstr "Descrição"
-
-#: .\flexform\templates\flexform\read_object.html:22
-msgid "Type"
-msgstr "Tipo"
 
 #: .\flexform\templates\flexform\signup.html:7
 #: .\flexform\templates\flexform\signup.html:35
@@ -140,6 +196,8 @@ msgstr "Cadastrar"
 
 #: .\flexform\templates\flexform\update_form.html:8
 #: .\flexform\templates\flexform\update_form.html:42
+#: .\flexform\templates\flexform\update_member.html:7
+#: .\flexform\templates\flexform\update_member.html:40
 #: .\flexform\templates\flexform\update_object.html:7
 #: .\flexform\templates\flexform\update_object.html:40
 msgid "Update"
@@ -152,6 +210,7 @@ msgid "Home"
 msgstr "Início"
 
 #: .\flexform\templates\forms.html:18 .\flexform\templates\index.html:18
+#: .\flexform\templates\instance.html:18
 #: .\flexform\templates\instance_list.html:17
 msgid "Instances"
 msgstr "Instâncias"
@@ -172,19 +231,19 @@ msgstr "Sair"
 msgid "New"
 msgstr "Nova"
 
-#: .\flexform\templates\forms.html:58 .\flexform\templates\index.html:97
+#: .\flexform\templates\forms.html:58 .\flexform\templates\index.html:101
 msgid "No instances added yet."
 msgstr "Ainda não foi adicionada nenhuma instância."
 
-#: .\flexform\templates\index.html:90
+#: .\flexform\templates\index.html:94
 msgid "Created in "
 msgstr "Criado em "
 
-#: .\flexform\templates\index.html:90
+#: .\flexform\templates\index.html:94
 msgid "by"
 msgstr "por"
 
-#: .\flexform\templates\instance.html:59
+#: .\flexform\templates\instance.html:62
 msgid "No objects yet."
 msgstr "Ainda não foi adicionada nenhum objeto. "
 

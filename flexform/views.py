@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 import json
 from django.http import JsonResponse
 from django.core import serializers
-
+from django.db.models import Case, When
 from bootstrap_modal_forms.generic import (
     BSModalLoginView,
     BSModalFormView,
@@ -25,9 +25,11 @@ from .forms import (
     BookFilterForm,
     FormModelForm,
     ObjectModelForm,
-    OpenModelForm
+    OpenModelForm,
+    FormMemberModelForm,
+    UpdateFormMemberModelForm
 )
-from .models import Book, Form, Object, Result, IdResult
+from .models import Book, Form, Object, Result, IdResult, FormMember
 
 class Index(generic.ListView):
     template_name = 'index.html'
@@ -37,11 +39,14 @@ class Index(generic.ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Form.objects.filter(created_by=self.request.user) | Form.objects.filter(private=False)
+            form_members = FormMember.objects.filter(user=self.request.user).values_list('form')
+            return Form.objects.filter(created_by=self.request.user) | Form.objects.filter(private=False) | Form.objects.filter(id__in=form_members)
         else:
             return Form.objects.filter(private=False)
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
+        if FormMember.objects.filter(user=self.request.user):
+            context['objects'] = FormMember.objects.filter(user=self.request.user)
         context['objects'] = Object.objects.all()
         return context
 
@@ -125,12 +130,19 @@ class Forms(generic.ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Form.objects.filter(created_by=self.request.user) | Form.objects.filter(private=False)
+            form_members = FormMember.objects.filter(user=self.request.user).values_list('form')
+
+            return Form.objects.filter(created_by=self.request.user) \
+                   | Form.objects.filter(private=False) \
+                   | Form.objects.filter(id__in=form_members)
         else:
             return Form.objects.filter(private=False)
+
+
     def get_context_data(self, **kwargs):
         context = super(Forms, self).get_context_data(**kwargs)
         context['objects'] = Object.objects.all()
+        context['members'] = FormMember.objects.all()
         return context
 
 class FormCreateView(BSModalCreateView):
@@ -254,6 +266,7 @@ class ObjectCreateView(BSModalCreateView):
             form.save()
         return HttpResponseRedirect(self.success_url)
 
+
 class ObjectUpdateView(BSModalUpdateView):
     model = Object
     template_name = 'flexform/update_object.html'
@@ -286,3 +299,36 @@ def objects(request):
         print( JsonResponse(data))
         return JsonResponse(data)
 
+###############################################
+
+class MemberCreateView(BSModalCreateView):
+    template_name = 'flexform/create_member.html'
+    form_class = FormMemberModelForm
+    success_message = 'Success: Member was created.'
+    success_url = reverse_lazy('forms_page')
+
+    def form_valid(self, form, *args,**kwargs):
+        print(str(self.kwargs['pk']))
+        if not self.request.is_ajax():
+            form = form.save(commit=False)
+            form.form = Form.objects.get(pk=self.kwargs['pk'])
+            #form.created_by = self.request.user  # use your own profile here
+            form.save()
+        return HttpResponseRedirect(self.success_url)
+
+class MemberReadView(BSModalReadView):
+    model = FormMember
+    template_name = 'flexform/read_member.html'
+
+class MemberUpdateView(BSModalUpdateView):
+    model = FormMember
+    template_name = 'flexform/update_member.html'
+    form_class = UpdateFormMemberModelForm
+    success_message = 'Success: Member was updated.'
+    success_url = reverse_lazy('forms_page')
+
+class MemberDeleteView(BSModalDeleteView):
+    model = FormMember
+    template_name = 'flexform/delete_member.html'
+    success_message = 'Success: Member was deleted.'
+    success_url = reverse_lazy('forms_page')

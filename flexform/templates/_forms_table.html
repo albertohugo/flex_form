@@ -3,8 +3,7 @@
 <table id="forms-table" class="table" style="margin-bottom: 0px;">
   <thead>
   <tr>
-    <th class="text-center " scope="col"></th>
-    <th class="text-center" scope="col">#</th>
+    <th class="text-center d-none d-lg-table-cell" scope="col">#</th>
     <th class="text-center d-none d-lg-table-cell" scope="col">{% trans 'Id' %}</th>
     <th class="text-center" scope="col">{% trans 'Name' %}</th>
     <th class="text-center d-none d-lg-table-cell" scope="col">{% trans 'Created by' %}</th>
@@ -19,8 +18,7 @@
   {% for form in forms %}
   <tbody>
    <tr >
-       <td class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#{{ form.id }}" href="#{{ form.id }}">+</td>
-      <th class="text-center" scope="row">{{ forloop.counter }}</th>
+      <th class="text-center d-none d-lg-table-cell" scope="row">{{ forloop.counter }}</th>
       <td class="text-center d-none d-lg-table-cell">{{ form.id }}</td>
       <td class="text-center">{{ form.title }}</td>
       <td class="text-center d-none d-lg-table-cell">{{ form.created_by }}</td>
@@ -45,7 +43,26 @@
         <button type="button" class="bs-modal read-form btn btn-sm btn-secondary " style="background-color: #1b6ca8; " data-form-url="{% url 'read_form' form.pk %}">
           <img src="{% static "open-iconic-master/svg/eye_w.svg" %}" width="13" height="13">
         </button>
-           {% if form.created_by == user %}
+            {% for member in members %}
+                {% if form == member.form%}
+                    {% if user == member.user%}
+                        {% if member.role == 1 and form.created_by != user %}
+                            <!-- Update form buttons -->
+                            <button type="button" class="update-form btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #1b6ca8;" data-form-url="{% url 'update_form' form.pk %}">
+                               <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
+                            </button>
+                            <!-- Delete form buttons -->
+                            <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary d-none d-lg-table-cell" data-form-url="{% url 'delete_form' form.pk %}">
+                               <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
+                            </button>
+                           <!--button type="button" class="bs-modal create-object btn btn-sm btn-secondary"  style="background-color: #393e46;"  data-form-url="{% url 'create_object' form.pk %}">
+                              <img src="{% static "open-iconic-master/svg/plus_w.svg" %}" width="13" height="13" >
+                            </button-->
+                        {% endif %}
+                    {% endif %}
+               {% endif %}
+           {% endfor %}
+            {% if form.created_by == user %}
             <!-- Update form buttons -->
             <button type="button" class="update-form btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #1b6ca8;" data-form-url="{% url 'update_form' form.pk %}">
                <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
@@ -54,52 +71,172 @@
             <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary d-none d-lg-table-cell" data-form-url="{% url 'delete_form' form.pk %}">
                <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
             </button>
-           <button type="button" class="bs-modal create-object btn btn-sm btn-secondary"  style="background-color: #393e46;"  data-form-url="{% url 'create_object' form.pk %}">
+           <!--button type="button" class="bs-modal create-object btn btn-sm btn-secondary"  style="background-color: #393e46;"  data-form-url="{% url 'create_object' form.pk %}">
               <img src="{% static "open-iconic-master/svg/plus_w.svg" %}" width="13" height="13" >
-            </button>
+            </button-->
         {% endif %}
+            <button id="accordion2" data-toggle="collapse" data-parent="#{{ form.id }}_member" href="#{{ form.id }}_member" type="button" class="bs-modal btn btn-sm btn-secondary accordion-toggle collapsed" style="background-color: #158467;" >
+               <img src="{% static "open-iconic-master/svg/people_w.svg" %}" width="13" height="13">
+            </button>
+            <button  id="accordion1" data-toggle="collapse" data-parent="#{{ form.id }}_object" href="#{{ form.id }}_object" type="button" class="bs-modal create-object btn btn-sm btn-secondary accordion-toggle collapsed"  style="background-color: #393e46;">
+              <img  src="{% static "open-iconic-master/svg/box_w.svg" %}" width="13" height="13" >
+            </button>
       </td>
        {% endif %}
     </tr>
     <tr class="hide-table-padding" style="padding: 0px;">
         <td class="card-footer" colspan="10"  style="padding: 0px;">
-        <div id={{ form.id }} class="collapse in p-3" >
+        <div id="{{ form.id }}_object" class="collapse in p-3" >
+            {% for member in members %}
+                {% if form == member.form%}
+                    {% if user == member.user%}
+                        {% if member.role == 1 and form.created_by != user %}
+                             <div class="mb-3">
+                               <button type="button" class="bs-modal create-object btn btn-sm btn-secondary" style="background-color: #393e46;"  data-form-url="{% url 'create_object' form.pk %}">
+                                   {% trans 'New2' %} {% trans 'Object' %}
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if form.created_by == user %}
+            <div class="mb-3">
+               <button type="button" class="bs-modal create-object btn btn-sm btn-secondary" style="background-color: #393e46;"  data-form-url="{% url 'create_object' form.pk %}">
+                   {% trans 'New2' %} {% trans 'Object' %}
+                </button>
+            </div>
+            {% endif %}
             <table  class="table table-sm" style="margin-bottom: 0px;">
-              <thead>
-              <tr class="table-active">
-                <th class="text-center" scope="col" width="50%">{% trans 'Object' %}</th>
+              <thead class="thead-dark">
+              <tr >
+                <th class="text-center" scope="col" width="33%">{% trans 'Object' %}</th>
+                  <th class="text-center" scope="col" width="33%">{% trans 'Type' %}</th>
                    {% if not user.is_anonymous %}
-                <th class="text-center" scope="col" width="50%">{% trans 'Actions' %}</th>
+                <th class="text-center" scope="col" width="33%">{% trans 'Actions' %}</th>
                     {% endif %}
                </tr>
               </thead>
-                </table>
+            </table>
             {% for object in objects %}
                 {% if form == object.form %}
- <table  class="table table-sm  " style="margin-bottom: 0px;">
-                <tbody>
-                <tr>
-                    <td class="text-center" width="50%">{{ object.label }}</td>
-                    {% if not user.is_anonymous %}
-                    <td class="text-center  " width="50%">
-                        <button type="button" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #393e46;" data-form-url="{% url 'read_object' object.pk %}">
-                  <img src="{% static "open-iconic-master/svg/eye_w.svg" %}" width="13" height="13">
-                </button>
-                        {% if form.created_by == user %}
-                <!-- Update form buttons -->
-                <button type="button" class="update-object btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #393e46;" data-form-url="{% url 'update_object' object.pk %}">
-                  <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
-                </button>
-                <!-- Delete form buttons -->
-                <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary d-none d-lg-table-cell" data-form-url="{% url 'delete_object' object.pk %}">
-                  <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
-                </button>
+                    <table  class="table  table-striped table-bordered table-sm" style="margin-bottom: 0px;">
+                        <tbody>
+                        <tr>
+                            <td class="text-center" width="33%">{{ object.label }}</td>
+                            <td class="text-center" width="33%">
+                            {% if object.type == 1 %}
+                                 <img src="{% static "open-iconic-master/svg/text.svg" %}" alt="Activated" width="10" height="10">
+                            {% else %}
+                                <img src="{% static "open-iconic-master/svg/calculator.svg" %}" alt="Deactivated" width="10" height="10">
+                            {% endif %}
+                            </td>
+                            {% if not user.is_anonymous %}
+                                <td class="text-center  " width="33%">
+                                    <button type="button" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #393e46;" data-form-url="{% url 'read_object' object.pk %}">
+                                      <img src="{% static "open-iconic-master/svg/eye_w.svg" %}" width="13" height="13">
+                                    </button>
+                                    {% if form.created_by == user %}
+                                        <!-- Update form buttons -->
+                                        <button type="button" class="update-object btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #393e46;" data-form-url="{% url 'update_object' object.pk %}">
+                                          <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
+                                        </button>
+                                        <!-- Delete form buttons -->
+                                        <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary d-none d-lg-table-cell" data-form-url="{% url 'delete_object' object.pk %}">
+                                          <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
+                                        </button>
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                     </tbody>
+                  </table>
+            {% endif %}
+              {% endfor %}
+        </div>
+        </td>
+    </tr>
+    <tr class="hide-table-padding" style="padding: 0px;">
+        <td class="card-footer" colspan="10"  style="padding: 0px;">
+        <div id="{{ form.id }}_member" class="collapse in p-3" >
+            {% for member in members %}
+                {% if form == member.form%}
+                    {% if user == member.user%}
+                        {% if member.role == 1 and form.created_by != user %}
+                            <div class="mb-3">
+                                <button type="button" class="bs-modal create-object btn btn-sm btn-secondary" style="background-color: #158467;"  data-form-url="{% url 'create_member' form.pk %}">
+                                    {% trans 'New2' %} {% trans 'Member' %}
+                                </button>
+                            </div>
                         {% endif %}
-                    </td>
                     {% endif %}
-                </tr>
- </tbody>
-  </table>
+                {% endif %}
+            {% endfor %}
+            {% if form.created_by == user %}
+            <div class="mb-3">
+               <button type="button" class="bs-modal create-object btn btn-sm btn-secondary" style="background-color: #158467;"  data-form-url="{% url 'create_member' form.pk %}">
+                   {% trans 'New2' %} {% trans 'Member' %}
+                </button>
+            </div>
+            {% endif %}
+            <table  class="table table-sm" style="margin-bottom: 0px;">
+              <thead>
+              <tr style="background-color: #158467;">
+                <th class="text-center text-white" scope="col" width="33%">{% trans 'Member' %}</th>
+                <th class="text-center text-white" scope="col" width="33%">{% trans 'Role' %}</th>
+                   {% if not user.is_anonymous %}
+                <th class="text-center text-white" scope="col" width="33%">{% trans 'Actions' %}</th>
+                    {% endif %}
+               </tr>
+              </thead>
+            </table>
+            {% for member in members %}
+                {% if form == member.form %}
+                    <table  class="table  table-striped table-bordered table-sm" style="margin-bottom: 0px;">
+                        <tbody>
+                        <tr>
+                            <td class="text-center" width="33%">{{ member.user }}</td>
+                            {% if member.role == 1 %}
+                            <td class="text-center" width="33%">{% trans 'Administrator' %}</td>
+                            {% else %}
+                            <td class="text-center" width="33%">{% trans 'Member' %}</td>
+                            {% endif %}
+                            {% if not user.is_anonymous %}
+                                <td class="text-center  " width="33%">
+                                    <button type="button" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #158467;" data-form-url="{% url 'read_member' member.pk %}">
+                                      <img src="{% static "open-iconic-master/svg/eye_w.svg" %}" width="13" height="13" >
+                                    </button>
+                                     {% for member in members %}
+                                            {% if form == member.form%}
+                                                {% if user == member.user%}
+                                                    {% if member.role == 1 and form.created_by != user %}
+                                                         <!-- Update form buttons -->
+                                                            <button type="button" class="update-object btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #158467;" data-form-url="{% url 'update_member' member.pk %}">
+                                                              <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
+                                                            </button>
+                                                            <!-- Delete form buttons -->
+                                                            <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary d-none d-lg-table-cell" data-form-url="{% url 'delete_member' member.pk %}">
+                                                              <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
+                                                            </button>
+                                                    {% endif %}
+                                                {% endif %}
+                                           {% endif %}
+                                       {% endfor %}
+                                    {% if form.created_by == user %}
+                                        <!-- Update form buttons -->
+                                        <button type="button" class="update-object btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #158467;" data-form-url="{% url 'update_member' member.pk %}">
+                                          <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
+                                        </button>
+                                        <!-- Delete form buttons -->
+                                        <button type="button" class="bs-modal delete-form btn btn-sm btn-secondary d-none d-lg-table-cell" data-form-url="{% url 'delete_member' member.pk %}">
+                                          <img src="{% static "open-iconic-master/svg/trash_w.svg" %}" width="13" height="13">
+                                        </button>
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                     </tbody>
+                  </table>
             {% endif %}
               {% endfor %}
         </div>

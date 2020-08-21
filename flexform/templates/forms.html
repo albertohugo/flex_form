@@ -44,7 +44,7 @@
           <div class="col-12 mb-3">
                {% if not user.is_anonymous %}
                     <button id="create-form" class="btn btn-secondary"  style="background-color: #1b6ca8;" type="button" name="button">
-                       + {% trans 'New' %} {% trans 'Instance' %}
+                       {% trans 'New' %} {% trans 'Instance' %}
                     </button>
                {% endif %}
             <!--button id="filter-book" class="bs-modal btn btn-primary" type="button" name="button" data-form-url="{% url 'filter_book' %}">

@@ -1,9 +1,13 @@
 from django.contrib import admin
-from .models import Form, Object, Result, IdResult
+from .models import Form, Object, Result, IdResult, FormMember
 
 class FormAdmin(admin.ModelAdmin):
     model = Form
     list_display = ['title','status',]
+
+class FormMemberAdmin(admin.ModelAdmin):
+    model = FormMember
+    list_display = ['form','role','user']
 
 class ObjectAdmin(admin.ModelAdmin):
     model = Object
@@ -18,6 +22,7 @@ class IdResultAdmin(admin.ModelAdmin):
     list_display = ['id','form']
 
 admin.site.register(Form, FormAdmin)
+admin.site.register(FormMember, FormMemberAdmin)
 admin.site.register(Object, ObjectAdmin)
 admin.site.register(Result, ResultAdmin)
 admin.site.register(IdResult, IdResultAdmin)

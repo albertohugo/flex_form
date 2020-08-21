@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from bootstrap_modal_forms.forms import BSModalModelForm, BSModalForm
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
-from .models import Book, Form, Object, Result
+from .models import Book, Form, Object, Result, FormMember
 from django.forms import TextInput
 from django.utils.translation import ugettext_lazy as _
 
@@ -65,6 +65,22 @@ class OpenModelForm(BSModalModelForm):
         model = Object
         exclude = ['form', 'value','timestamp', 'created_by']
 
+class FormMemberModelForm(BSModalModelForm):
+    class Meta:
+        labels = {
+            "role": _(u'Role'),
+            "user": _(u'User')
+        }
+        model = FormMember
+        exclude = ['form',]
+
+class UpdateFormMemberModelForm(BSModalModelForm):
+    class Meta:
+        labels = {
+            "role": _(u'Role')
+        }
+        model = FormMember
+        exclude = ['form','user']
 
 
 
