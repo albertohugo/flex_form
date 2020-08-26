@@ -42,7 +42,9 @@ class Index(generic.ListView):
             return Form.objects.all()
         elif self.request.user.is_authenticated:
             form_members = FormMember.objects.filter(user=self.request.user).values_list('form')
-            return Form.objects.filter(created_by=self.request.user) | Form.objects.filter(private=False) | Form.objects.filter(id__in=form_members)
+            return Form.objects.filter(created_by=self.request.user) | \
+                   Form.objects.filter(private=False) | \
+                   Form.objects.filter(id__in=form_members)
         else:
             return Form.objects.filter(private=False)
     def get_context_data(self, **kwargs):
