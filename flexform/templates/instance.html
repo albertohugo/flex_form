@@ -41,13 +41,29 @@
         <form action="" method="post">
               {% csrf_token %}
             {% if objects %}
-
                     {% for object in objects %}
                         {{ object.label }}
                         {% if object.type == 2 %}
-                            <input type="number" step="0.01" id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
+                            {% if form_filled %}
+                                {% for form_f in form_filled %}
+                                    {% if object == form_f.object %}
+                                        <input type="number" step="0.01" id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ form_f.value }}" required class="form-control">
+                                     {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <input type="number" step="0.01" id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
+                            {% endif %}
+
                         {% else %}
-                            <input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
+                            {% if form_filled %}
+                                {% for form_f in form_filled %}
+                                    {% if object == form_f.object %}
+                                        <input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ form_f.value }}" required class="form-control">
+                                     {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
+                            {% endif %}
                         {% endif %}
                         <small class="form-text text-muted">{{ object.description }}</small>
                     {% endfor %}

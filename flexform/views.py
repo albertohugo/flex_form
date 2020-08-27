@@ -201,23 +201,35 @@ def forms(request):
 
 def open_form(request):
     pk = request.GET.get('pk', '') or ''
+    id_result = request.GET.get('id_result', '') or ''
     form = Form.objects.filter(id=pk)
     objects = Object.objects.filter(form__in=form)
     #print(serializers.serialize("json", form))
     #print(serializers.serialize("json", objects))
-
+    if id_result != '':
+        form_filled = Result.objects.filter(form=form.first(), id_result=id_result)
+    else:
+        form_filled = Result.objects.filter(form=form.first(), id_result=0)
     if request.method == "POST":
-        IdResult.objects.create(form=form.first())
-        for object in objects:
-            value = request.POST[pk + '_' + str(object.id)]
-            id_result = IdResult.objects.filter().last().id
+        if id_result != '':
+            print(id_result)
+            for object in objects:
+                value = request.POST[pk + '_' + str(object.id)]
+                Result.objects.filter(form=form.first(),object=object, id_result=id_result).update(value=value)
+            return HttpResponseRedirect('../')
+        else:
+            IdResult.objects.create(form=form.first())
+            for object in objects:
+                value = request.POST[pk + '_' + str(object.id)]
+                id_result = IdResult.objects.filter().last().id
 
-            Result.objects.create(form=form.first(), object=object, id_result=id_result ,value=value, created_by=request.user)
-        return HttpResponseRedirect('../')
+                Result.objects.create(form=form.first(), object=object, id_result=id_result ,value=value, created_by=request.user)
+            return HttpResponseRedirect('../')
 
     return render(request, 'instance.html',
                   {'form_title':form.get().title,
                    'form_id': form.get().id,
+                   'form_filled': form_filled,
                    'objects':objects}
                   )
 
