@@ -9,6 +9,9 @@ import json
 from django.http import JsonResponse
 from django.core import serializers
 from django.db.models import Case, When
+from .serializer import FormSerializer
+from rest_framework import viewsets
+
 from bootstrap_modal_forms.generic import (
     BSModalLoginView,
     BSModalFormView,
@@ -30,6 +33,11 @@ from .forms import (
     UpdateFormMemberModelForm
 )
 from .models import Book, Form, Object, Result, IdResult, FormMember
+
+class FormViewSet(viewsets.ModelViewSet):
+    queryset = Form.objects.all()
+    serializer_class = FormSerializer
+
 
 class Index(generic.ListView):
     template_name = 'index.html'

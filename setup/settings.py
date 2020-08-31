@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'flexform',
     'tests',
     'crispy_forms',
+    'rest_framework',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
