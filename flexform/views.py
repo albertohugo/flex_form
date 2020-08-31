@@ -9,7 +9,7 @@ import json
 from django.http import JsonResponse
 from django.core import serializers
 from django.db.models import Case, When
-from .serializer import FormSerializer
+from .serializer import FormSerializer, ObjectSerializer, FormMemberSerializer, ResultSerializer
 from rest_framework import viewsets
 
 from bootstrap_modal_forms.generic import (
@@ -37,6 +37,19 @@ from .models import Book, Form, Object, Result, IdResult, FormMember
 class FormViewSet(viewsets.ModelViewSet):
     queryset = Form.objects.all()
     serializer_class = FormSerializer
+
+class ObjectViewSet(viewsets.ModelViewSet):
+    queryset = Object.objects.all()
+    serializer_class = ObjectSerializer
+
+class FormMemberViewSet(viewsets.ModelViewSet):
+    queryset = FormMember.objects.all()
+    serializer_class = FormMemberSerializer
+
+class ResultViewSet(viewsets.ModelViewSet):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
+
 
 
 class Index(generic.ListView):

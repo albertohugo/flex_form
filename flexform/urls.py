@@ -6,9 +6,9 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'form',views.FormViewSet)
-
-from . import views
-
+router.register(r'object',views.ObjectViewSet)
+router.register(r'member',views.FormMemberViewSet)
+router.register(r'results',views.ResultViewSet)
 
 urlpatterns = [
     url(r'^', include (router.urls)),
