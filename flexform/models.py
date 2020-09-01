@@ -26,6 +26,10 @@ class Form(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
 
+    def __str__(self):
+        return self.title
+
+
 class FormMember(models.Model):
     ADMIN = 1
     MEMBER = 2
@@ -33,9 +37,15 @@ class FormMember(models.Model):
         (ADMIN, 'Admin'),
         (MEMBER, 'Member'),
     )
-    form = models.ForeignKey('form', on_delete=models.CASCADE)
+    form = models.ForeignKey('form', related_name='member', on_delete=models.CASCADE)
     role = models.PositiveSmallIntegerField(choices=OBJECT_TYPES)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+
+    def __str__(self):
+        if self.user is not None:
+            return str(self.user.username) + ':' + str(self.role)
+        else:
+            return ''
 
 class Object(models.Model):
     STRING = 1
@@ -44,20 +54,28 @@ class Object(models.Model):
         (STRING, 'String'),
         (NUMBER, 'Number'),
     )
-    form = models.ForeignKey('form', on_delete=models.CASCADE)
+    form = models.ForeignKey('form', related_name='object', on_delete=models.CASCADE)
     label = models.CharField(max_length=50)
     description = models.CharField(max_length=100, default="",  blank = True)
     type = models.PositiveSmallIntegerField(choices=OBJECT_TYPES)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
+    def __str__(self):
+        return self.label
 
 class IdResult(models.Model):
-    form = models.ForeignKey('form', on_delete=models.CASCADE)
+    form = models.ForeignKey('form', related_name='response', on_delete=models.CASCADE)
+
+    def __str__(self):
+        if self.id is not None:
+            return str(self.id)
+        else:
+            return ''
 
 class Result(models.Model):
     form = models.ForeignKey('form', on_delete=models.CASCADE)
     object = models.ForeignKey('object', on_delete=models.CASCADE)
-    id_result = models.IntegerField(default=0)
+    id_result = models.ForeignKey('idresult', related_name='response_detail', on_delete=models.CASCADE)
     value = models.CharField(max_length=50)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)

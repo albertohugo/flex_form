@@ -61,7 +61,7 @@
                   {% for ids in id_results %}
                         <tr>
                             {% for result in results %}
-                                {% if result.id_result == ids.id %}
+                                {% if result.id_result.id == ids.id %}
                                   <td class="text-center">
                                   {{ result.value }}
                                   </td>

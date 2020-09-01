@@ -13,6 +13,7 @@ urlpatterns = [
     path('forms_page/', views.Forms.as_view(), name='forms_page'),
     path('forms/', views.forms, name='forms'),
     path('objects/', views.objects, name='objects'),
+    path('api/send_object', views.send_object, name='send_object'),
     path('open_form/', views.open_form, name='open_form'),
     path('open_list/', views.open_list, name='open_list'),
     path('create_form/', views.FormCreateView.as_view(), name='create_form'),

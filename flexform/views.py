@@ -9,8 +9,15 @@ import json
 from django.http import JsonResponse
 from django.core import serializers
 from django.db.models import Case, When
-from .serializer import FormSerializer, ObjectSerializer, FormMemberSerializer, ResultSerializer
+from .serializer import FormSerializer, ObjectSerializer, FormMemberSerializer, ResultSerializer, FlexFormGetSerializer, FlexFormSetSerializer
 from rest_framework import viewsets
+from django.contrib.auth.models import User
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view
+from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 
 from bootstrap_modal_forms.generic import (
     BSModalLoginView,
@@ -38,9 +45,14 @@ class FormViewSet(viewsets.ModelViewSet):
     queryset = Form.objects.all()
     serializer_class = FormSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
 class ObjectViewSet(viewsets.ModelViewSet):
     queryset = Object.objects.all()
     serializer_class = ObjectSerializer
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
 
 class FormMemberViewSet(viewsets.ModelViewSet):
     queryset = FormMember.objects.all()
@@ -50,13 +62,66 @@ class ResultViewSet(viewsets.ModelViewSet):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
 
+    def perform_create(self, serializer):
+        IdResult.objects.create(form=Form.objects.filter(id=serializer.validated_data['form'].id).first())
+        id_result = IdResult.objects.filter().last()
+        serializer.save(id_result=id_result)
 
+class FlexFormGetViewGet(viewsets.ModelViewSet):
+    queryset = Form.objects.none()
+    model = Form
+    serializer_class = FlexFormGetSerializer
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Form.objects.all()
+        elif self.request.user.is_authenticated:
+            form_members = FormMember.objects.filter(user=self.request.user).values_list('form')
+            return Form.objects.filter(created_by=self.request.user) | \
+                   Form.objects.filter(private=False) | \
+                   Form.objects.filter(id__in=form_members)
+        else:
+            return Form.objects.filter(private=False)
+
+class FlexFormSetViewSet(viewsets.ModelViewSet):
+    queryset = Object.objects.all()
+    model = Object
+    serializer_class = FlexFormSetSerializer
+
+
+@csrf_exempt
+def send_object(request):
+    if request.method == 'POST':
+        form_id = request.GET.get("form_id", '') or ''
+        if form_id == '':
+            return HttpResponse("Missing form_id parameter" )
+        else:
+            form_selected = Form.objects.filter(id__in=form_id)
+            #print(str(form_selected))
+            if form_selected:
+                objects = Object.objects.filter(form__in=form_selected)
+                parameters=[]
+                values = []
+                if objects:
+                    count=0
+                    for object in objects:
+                        parameters.insert(count, object.label.lower())
+                        if request.GET.get(parameters[count])== '':
+                            return HttpResponse(parameters[count] + ' is empty')
+                        elif request.GET.get(parameters[count]) == None:
+                            return HttpResponse("Missing " + parameters[count])
+                        else:
+                            count += 1
+
+                    return HttpResponse("OKKK ")
+                else:
+                    return HttpResponse("No objects in this instance")
+            else:
+                return HttpResponse("form_id not found")
 
 class Index(generic.ListView):
     template_name = 'index.html'
     model = Form
     context_object_name = 'forms'
-    #queryset = Form.objects.all()
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -228,7 +293,7 @@ def open_form(request):
     #print(serializers.serialize("json", form))
     #print(serializers.serialize("json", objects))
     if id_result != '':
-        form_filled = Result.objects.filter(form=form.first(), id_result=id_result)
+        form_filled = Result.objects.filter(form=form.first(), id_result=IdResult.objects.filter(id=id_result))
     else:
         form_filled = Result.objects.filter(form=form.first(), id_result=0)
     if request.method == "POST":
@@ -236,13 +301,13 @@ def open_form(request):
             print(id_result)
             for object in objects:
                 value = request.POST[pk + '_' + str(object.id)]
-                Result.objects.filter(form=form.first(),object=object, id_result=id_result).update(value=value)
+                Result.objects.filter(form=form.first(),object=object, id_result=IdResult.objects.filter(id=id_result)).update(value=value)
             return HttpResponseRedirect('../')
         else:
             IdResult.objects.create(form=form.first())
             for object in objects:
                 value = request.POST[pk + '_' + str(object.id)]
-                id_result = IdResult.objects.filter().last().id
+                id_result = IdResult.objects.filter().last()
 
                 Result.objects.create(form=form.first(), object=object, id_result=id_result ,value=value, created_by=request.user)
             return HttpResponseRedirect('../')
@@ -259,13 +324,14 @@ def open_list(request):
     id_result = request.GET.get('id_result', '') or ''
     print(id_result)
     if id_result != '':
-        Result.objects.filter(id_result=id_result).delete()
+        Result.objects.filter(id_result__in=IdResult.objects.filter(id=id_result)).delete()
         IdResult.objects.filter(id=id_result).delete()
     form = Form.objects.filter(id=pk)
     results = Result.objects.filter(form__in=form)
     objects = Object.objects.filter(form__in=form)
     id_results = IdResult.objects.filter(form__in=form)
-    #print(serializers.serialize("json", results))
+
+    print(serializers.serialize("json", results))
     #print(serializers.serialize("json", objects))
 
 
