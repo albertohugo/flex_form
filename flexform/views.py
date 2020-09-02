@@ -18,6 +18,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+from basicauth import decode
 
 from bootstrap_modal_forms.generic import (
     BSModalLoginView,
@@ -90,17 +92,28 @@ class FlexFormSetViewSet(viewsets.ModelViewSet):
 
 @csrf_exempt
 def send_object(request):
+    print(request.headers['Authorization'])
+    #print(request.POST['username'])
+    #username = request.POST['username']
+    #password = request.POST['password']
+    encoded_str = request.headers['Authorization']
+    username, password = decode(encoded_str)
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        print("Auth")
+    else:
+        print("NoAuth")
     if request.method == 'POST':
         form_id = request.GET.get("form_id", '') or ''
         if form_id == '':
             return HttpResponse("Missing form_id parameter" )
         else:
             form_selected = Form.objects.filter(id__in=form_id)
-            #print(str(form_selected))
             if form_selected:
                 objects = Object.objects.filter(form__in=form_selected)
                 parameters=[]
-                values = []
+                values=[]
                 if objects:
                     count=0
                     for object in objects:
@@ -110,9 +123,18 @@ def send_object(request):
                         elif request.GET.get(parameters[count]) == None:
                             return HttpResponse("Missing " + parameters[count])
                         else:
+                            values.insert(count, request.GET.get(parameters[count]))
                             count += 1
+                    countparam = 0
 
+                    IdResult.objects.create(form=form_selected.last()).form
+                    id_result = IdResult.objects.filter().last()
+
+                    for object in objects:
+                        Result.objects.create(form=form_selected.last(), object=object, id_result=id_result, value=values[countparam],created_by=request.user)
+                        countparam += 1
                     return HttpResponse("OKKK ")
+
                 else:
                     return HttpResponse("No objects in this instance")
             else:
@@ -293,7 +315,7 @@ def open_form(request):
     #print(serializers.serialize("json", form))
     #print(serializers.serialize("json", objects))
     if id_result != '':
-        form_filled = Result.objects.filter(form=form.first(), id_result=IdResult.objects.filter(id=id_result))
+        form_filled = Result.objects.filter(form=form.first(), id_result=IdResult.objects.filter(id=id_result).last())
     else:
         form_filled = Result.objects.filter(form=form.first(), id_result=0)
     if request.method == "POST":
@@ -301,7 +323,7 @@ def open_form(request):
             print(id_result)
             for object in objects:
                 value = request.POST[pk + '_' + str(object.id)]
-                Result.objects.filter(form=form.first(),object=object, id_result=IdResult.objects.filter(id=id_result)).update(value=value)
+                Result.objects.filter(form=form.first(),object=object, id_result=IdResult.objects.filter(id=id_result).last()).update(value=value)
             return HttpResponseRedirect('../')
         else:
             IdResult.objects.create(form=form.first())
@@ -313,10 +335,10 @@ def open_form(request):
             return HttpResponseRedirect('../')
 
     return render(request, 'instance.html',
-                  {'form_title':form.get().title,
+                  {'form_title': form.get().title,
                    'form_id': form.get().id,
                    'form_filled': form_filled,
-                   'objects':objects}
+                   'objects': objects}
                   )
 
 def open_list(request):

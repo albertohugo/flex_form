@@ -1,6 +1,8 @@
 asgiref==3.2.10
+basicauth==0.4.1
 certifi==2020.4.5.1
 chardet==3.0.4
+click==7.1.2
 dj-database-url==0.5.0
 Django==2.2.13
 django-bootstrap-modal-forms==1.4.1
@@ -10,10 +12,15 @@ django-heroku==0.3.1
 django-tables2==2.3.1
 django-widget-tweaks==1.4.2
 djangorestframework==3.11.1
+Flask==1.1.2
+Flask-BasicAuth==0.2.0
 gunicorn==20.0.4
 idna==2.9
 iexfinance==0.4.3
+itsdangerous==1.1.0
+Jinja2==2.11.2
 joblib==0.15.1
+MarkupSafe==1.1.1
 numpy==1.18.4
 pandas==1.0.4
 psycopg2==2.8.5
@@ -28,4 +35,5 @@ sklearn==0.0
 sqlparse==0.3.1
 threadpoolctl==2.1.0
 urllib3==1.25.9
+Werkzeug==1.0.1
 whitenoise==5.2.0

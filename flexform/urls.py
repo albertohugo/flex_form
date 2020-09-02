@@ -9,8 +9,8 @@ router = routers.DefaultRouter()
 #router.register(r'object',views.ObjectViewSet)
 #router.register(r'member',views.FormMemberViewSet)
 #router.register(r'result',views.ResultViewSet)
-router.register(r'get',views.FlexFormGetViewGet)
-router.register(r'set',views.FlexFormSetViewSet)
+router.register(r'flexform',views.FlexFormGetViewGet)
+#router.register(r'set',views.FlexFormSetViewSet)
 #router.register(r'set',views.send_object, basename='send_object')
 urlpatterns = [
     url(r'^', include (router.urls)),
