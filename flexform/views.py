@@ -92,24 +92,31 @@ class FlexFormSetViewSet(viewsets.ModelViewSet):
 
 @csrf_exempt
 def send_object(request):
-    print(request.headers['Authorization'])
-    #print(request.POST['username'])
-    #username = request.POST['username']
-    #password = request.POST['password']
     encoded_str = request.headers['Authorization']
     username, password = decode(encoded_str)
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        print("Auth")
     else:
-        print("NoAuth")
+        return HttpResponse(" Unauthorized")
     if request.method == 'POST':
         form_id = request.GET.get("form_id", '') or ''
         if form_id == '':
-            return HttpResponse("Missing form_id parameter" )
+            return HttpResponse("Missing form_id parameter")
         else:
-            form_selected = Form.objects.filter(id__in=form_id)
+
+            if user.is_superuser:
+                form_selected = Form.objects.filter(id__in=form_id)
+            elif user.is_authenticated:
+                form_members = FormMember.objects.filter(user=user).values_list('form')
+                form_selected = Form.objects.filter(id__in=form_id, created_by=user) | \
+                       Form.objects.filter(id__in=form_id, private=False) | \
+                       Form.objects.filter(id__in=form_id).filter(id__in=form_members)
+            else:
+                form_selected = Form.objects.filter(private=False)
+
+            #form_selected = Form.objects.filter(id__in=form_id) # without auth filter
+
             if form_selected:
                 objects = Object.objects.filter(form__in=form_selected)
                 parameters=[]
@@ -118,27 +125,44 @@ def send_object(request):
                     count=0
                     for object in objects:
                         parameters.insert(count, object.label.lower())
-                        if request.GET.get(parameters[count])== '':
-                            return HttpResponse(parameters[count] + ' is empty')
+                        if request.GET.get(parameters[count]) == '':
+                            return HttpResponse('Parameter ' + parameters[count] + ' is empty')
                         elif request.GET.get(parameters[count]) == None:
-                            return HttpResponse("Missing " + parameters[count])
+                            return HttpResponse("Missing " + parameters[count] + ' as parameter')
                         else:
-                            values.insert(count, request.GET.get(parameters[count]))
-                            count += 1
+                            if object.type == 2:
+                                string_int = request.GET.get(parameters[count])
+                                try:
+                                    string_int = float(request.GET.get(parameters[count]))
+                                except ValueError:
+                                    print('Please enter an integer')
+                                if is_integer_num(string_int):
+                                    values.insert(count, request.GET.get(parameters[count]))
+                                    count += 1
+                                else:
+                                    return HttpResponse('Parameter ' + parameters[count] + ' is not a number')
+                            else:
+                                values.insert(count, request.GET.get(parameters[count]))
+                                count += 1
                     countparam = 0
-
                     IdResult.objects.create(form=form_selected.last()).form
                     id_result = IdResult.objects.filter().last()
 
                     for object in objects:
                         Result.objects.create(form=form_selected.last(), object=object, id_result=id_result, value=values[countparam],created_by=request.user)
                         countparam += 1
-                    return HttpResponse("OKKK ")
+                    return HttpResponse("Objects was sent")
 
                 else:
                     return HttpResponse("No objects in this instance")
             else:
-                return HttpResponse("form_id not found")
+                return HttpResponse("Parameter form_id not found or you don't have permission to access this instance.\nPlease access ../api/flexform to check the instance information")
+
+def is_integer_num(n):
+    if isinstance(n, int) or isinstance(n, float):
+        return True
+    else:
+        return False
 
 class Index(generic.ListView):
     template_name = 'index.html'
