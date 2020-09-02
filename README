@@ -27,5 +27,9 @@ PIP
     pip freeze > requirements.txt
     pip install -r requirements.txt
 
-from flexform.models import Book, Form, Object, Result, IdResult, FormMember
-Result.objects.all().delete()
+DELETE TABLES
+    from flexform.models import Book, Form, Object, Result, IdResult, FormMember
+    Result.objects.all().delete()
+
+HEROKU SHELL
+    heroku run python manage.py shell --app flexform
