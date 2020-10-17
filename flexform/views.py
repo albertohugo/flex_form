@@ -158,6 +158,117 @@ def send_object(request):
             else:
                 return HttpResponse("Parameter form_id not found or you don't have permission to access this instance.\nPlease access ../api/flexform to check the instance information")
 
+@csrf_exempt
+def update_object(request):
+    encoded_str = request.headers['Authorization']
+    username, password = decode(encoded_str)
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+    else:
+        return HttpResponse(" Unauthorized")
+    if request.method == 'POST':
+        form_id = request.GET.get("form_id", '') or ''
+        id_result = request.GET.get('id_response', '') or ''
+        if form_id == '':
+            return HttpResponse("Missing form_id parameter")
+        elif id_result == '':
+            return HttpResponse("Missing id_response parameter")
+        else:
+            if user.is_superuser:
+                form_selected = Form.objects.filter(id__in=form_id)
+            elif user.is_authenticated:
+                form_members = FormMember.objects.filter(user=user).values_list('form')
+                form_selected = Form.objects.filter(id__in=form_id, created_by=user) | \
+                       Form.objects.filter(id__in=form_id, private=False) | \
+                       Form.objects.filter(id__in=form_id).filter(id__in=form_members)
+            else:
+                form_selected = Form.objects.filter(private=False)
+
+            if form_selected:
+                print(form_selected)
+                objects = Object.objects.filter(form__in=form_selected)
+                parameters=[]
+                values=[]
+                form_filled = Result.objects.filter(form=form_selected.first(), id_result=IdResult.objects.filter(id=id_result).last())
+                if form_filled.count() == 0:
+                    return HttpResponse("id_response does not exist")
+                if objects:
+                    count=0
+                    for object in objects:
+                        parameters.insert(count, object.label.lower())
+                        if request.GET.get(parameters[count]) == '':
+                            return HttpResponse('Parameter ' + parameters[count] + ' is empty')
+                        elif request.GET.get(parameters[count]) == None:
+                            print("Nothing to do with "+parameters[count]+" parameter")
+                        else:
+                            if object.type == 2:
+                                string_int = request.GET.get(parameters[count])
+                                try:
+                                    string_int = float(request.GET.get(parameters[count]))
+                                except ValueError:
+                                    print('Please enter an integer')
+
+                                if is_integer_num(string_int):
+                                    Result.objects.filter(form=form_selected.first(), object=object,
+                                                          id_result=IdResult.objects.filter(
+                                                              id=id_result).last()).update(value=request.GET.get(parameters[count]))
+                                    count += 1
+                                else:
+                                    return HttpResponse('Parameter ' + parameters[count] + ' is not a number')
+                            else:
+                                Result.objects.filter(form=form_selected.first(), object=object,
+                                                      id_result=IdResult.objects.filter(id=id_result).last()).update(
+                                    value=request.GET.get(parameters[count]))
+                                count += 1
+                    if count > 0:
+                        return HttpResponse("Objects was updated")
+                    else:
+                        return HttpResponse("Nothing to update")
+                else:
+                    return HttpResponse("No objects in this instance")
+            else:
+                return HttpResponse("Parameter form_id not found or you don't have permission to access this instance.\nPlease access ../api/flexform to check the instance information")
+
+@csrf_exempt
+def delete_object(request):
+    encoded_str = request.headers['Authorization']
+    username, password = decode(encoded_str)
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+    else:
+        return HttpResponse(" Unauthorized")
+    if request.method == 'POST':
+        form_id = request.GET.get("form_id", '') or ''
+        id_result = request.GET.get('id_response', '') or ''
+        if form_id == '':
+            return HttpResponse("Missing form_id parameter")
+        elif id_result == '':
+            return HttpResponse("Missing id_response parameter")
+        else:
+            if user.is_superuser:
+                form_selected = Form.objects.filter(id__in=form_id)
+            elif user.is_authenticated:
+                form_members = FormMember.objects.filter(user=user).values_list('form')
+                form_selected = Form.objects.filter(id__in=form_id, created_by=user) | \
+                       Form.objects.filter(id__in=form_id, private=False) | \
+                       Form.objects.filter(id__in=form_id).filter(id__in=form_members)
+            else:
+                form_selected = Form.objects.filter(private=False)
+
+            if form_selected:
+                print(form_selected)
+                form_filled = Result.objects.filter(form=form_selected.first(), id_result=IdResult.objects.filter(id=id_result).last())
+                if form_filled.count() == 0:
+                    return HttpResponse("id_response does not exist")
+                else:
+                    Result.objects.filter(form=form_selected.first(), id_result=IdResult.objects.filter(id=id_result).last()).delete()
+                    IdResult.objects.filter(id=id_result).delete()
+                    return HttpResponse(id_result + " from form_id "+ form_id + " was deleted")
+            else:
+                return HttpResponse("Parameter form_id not found or you don't have permission to access this instance.\nPlease access ../api/flexform to check the instance information")
+
 def is_integer_num(n):
     if isinstance(n, int) or isinstance(n, float):
         return True
@@ -485,3 +596,8 @@ class MemberDeleteView(BSModalDeleteView):
     template_name = 'flexform/delete_member.html'
     success_message = 'Success: Member was deleted.'
     success_url = reverse_lazy('forms_page')
+
+class Developer(generic.ListView):
+    template_name = 'developer.html'
+    model = Form
+    context_object_name = 'forms'

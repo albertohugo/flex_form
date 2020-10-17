@@ -48,7 +48,7 @@
             {% for member in members %}
                 {% if form == member.form%}
                     {% if user == member.user%}
-                        {% if member.role == 1 and form.created_by != user %}
+                        {% if member.role == 1 and form.created_by != user and not user.is_superuser %}
                             <!-- Update form buttons -->
                             <button type="button" class="update-form btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #1b6ca8;" data-form-url="{% url 'update_form' form.pk %}">
                                <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
@@ -92,7 +92,7 @@
             {% for member in members %}
                 {% if form == member.form%}
                     {% if user == member.user%}
-                        {% if member.role == 1 and form.created_by != user %}
+                        {% if member.role == 1 and form.created_by != user and not user.is_superuser %}
                              <div class="mb-3">
                                <button type="button" class="bs-modal create-object btn btn-sm btn-secondary" style="background-color: #393e46;"  data-form-url="{% url 'create_object' form.pk %}">
                                    {% trans 'New2' %} {% trans 'Object' %}
@@ -149,7 +149,7 @@
                                     {% for member in members %}
                                         {% if form == member.form%}
                                             {% if user == member.user%}
-                                                {% if member.role == 1 and form.created_by != user %}
+                                                {% if member.role == 1 and form.created_by != user and not user.is_superuser %}
                                                       <!-- Update form buttons -->
                                                         <button type="button" class="update-object btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #393e46;" data-form-url="{% url 'update_object' object.pk %}">
                                                           <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
@@ -188,7 +188,7 @@
             {% for member in members %}
                 {% if form == member.form%}
                     {% if user == member.user%}
-                        {% if member.role == 1 and form.created_by != user %}
+                        {% if member.role == 1 and form.created_by != user and not user.is_superuser %}
                             <div class="mb-3">
                                 <button type="button" class="bs-modal create-object btn btn-sm btn-secondary" style="background-color: #158467;"  data-form-url="{% url 'create_member' form.pk %}">
                                     {% trans 'New2' %} {% trans 'Member' %}
@@ -246,7 +246,7 @@
                                      {% for member in members %}
                                             {% if form == member.form%}
                                                 {% if user == member.user%}
-                                                    {% if member.role == 1 and form.created_by != user %}
+                                                    {% if member.role == 1 and form.created_by != user and not user.is_superuser %}
                                                          <!-- Update form buttons -->
                                                             <button type="button" class="update-object btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #158467;" data-form-url="{% url 'update_member' member.pk %}">
                                                               <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load i18n %}
+  {% include "_modal.html" %}
+    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
+    <a class="navbar-brand" href="">Flexform</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="../">{% trans 'Home' %}</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="../forms_page/">{% trans 'Instances' %}</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link active" href="">Developer</a>
+            </li>
+             {% if user.is_superuser %}
+            <li class="nav-item">
+                <a class="nav-link" href="../admin/">Admin</a>
+            </li>
+            {% endif %}
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          {% if not user.is_anonymous %}
+             <span class="nav-link" style="color:white">
+                 {% trans 'Your are logged in as' %}
+                <strong>{{ user }}</strong>
+              </span>
+              <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light" role="button">{% trans 'Log out' %}</a>
+            {% else %}
+              <button id="signup-btn" class="btn btn-light" type="button" name="button">{% trans 'Sign up' %}</button> &nbsp;
+              <input class="btn btn-outline-light"type="button" value={% trans 'Log in' %} id="login-btn" />
+            {% endif %}
+        </form>
+    </div>
+</nav>
+<div class="container mt-3">
+<h2>GET</h2>
+/api/flexform/?format=json<br><br>
+<h2>POST</h2>/api/insert<br><br>
+Example: localhost:port/api/insert?form_id=form_id_value&object_1=value_1&object_2=value_2&object_3=value_3<br><br>
+<h2>DELETE</h2>/api/delete<br><br>
+Example: localhost:port/api/delete?form_id=form_id_value&id_response=id_response_value<br><br>
+<h2>UPDATE</h2>/api/update<br><br>
+Example: localhost:port/api/update?form_id=form_id_value&id_response=id_response_value&object_1=value_1&object_2=value_2&object_3=value_3<br><br>
+</div>
+
+{% endblock content %}
+

@@ -17,7 +17,7 @@
                 <a class="nav-link" href="../forms_page/">{% trans 'Instances' %}</a>
             </li>
               <li class="nav-item">
-                <a class="nav-link" href="../api/flexform/?format=json">Web API</a>
+                <a class="nav-link" href="../developer/">Developer</a>
             </li>
              <li class="nav-item active">
                 <a class="nav-link" href="">{{ form_title }} - {% trans 'Results' %}</a>
@@ -52,7 +52,7 @@
                             <th class="text-center" scope="col">{{ object.label }}</th>
                            {% endfor %}
                           {% if not user.is_anonymous %}
-                            {% if user == form_user%}
+                            {% if user == form_user or user.is_superuser%}
                                 <th class="text-center d-none d-lg-table-cell"   scope="col">Actions</th>
                             {% endif %}
                           {% endif %}
@@ -68,7 +68,7 @@
                                 {% endif %}
                             {% endfor %}
                             {% if not user.is_anonymous %}
-                                {% if user == form_user%}
+                                {% if user == form_user or user.is_superuser%}
                                     <td class="text-center d-none d-lg-table-cell">
                                         <button type="button" class="btn btn-sm btn-secondary "  style="background-color: #393e46;" onclick="window.location.href='/open_form/?pk={{ form_id }}&id_result={{ ids.id }}'">
                                              <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
