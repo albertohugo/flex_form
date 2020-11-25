@@ -5,8 +5,8 @@
 {% load i18n %}
   {% include "_modal.html" %}
     <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
-    <a class="navbar-brand" href="">Flexform</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+     <img src="{% static "images/logo.png" %}"  width="100" height="30">
+    <!--a class="navbar-brand" href="">Baicken</a--><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -40,16 +40,165 @@
         </form>
     </div>
 </nav>
+
+
 <div class="container mt-3">
-<h2>GET</h2>
-/api/flexform/?format=json<br><br>
-<h2>POST</h2>/api/insert<br><br>
-Example: localhost:port/api/insert?form_id=form_id_value&object_1=value_1&object_2=value_2&object_3=value_3<br><br>
-<h2>DELETE</h2>/api/delete<br><br>
-Example: localhost:port/api/delete?form_id=form_id_value&id_response=id_response_value<br><br>
-<h2>UPDATE</h2>/api/update<br><br>
-Example: localhost:port/api/update?form_id=form_id_value&id_response=id_response_value&object_1=value_1&object_2=value_2&object_3=value_3<br><br>
+<h2>How to use</h2><br>
+
+<div class="card">
+     <div class="card-header">GET</div>
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">/api/flexform/?format=json</h6>
+    <p class="card-text"></p>
+    <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Parameter</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>format</td>
+      <td>Serialization formats (XML, json)</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+     <div class="card-footer">
+      <small class="text-muted">Example: localhost:port/api/insert?format=json</small>
+    </div>
 </div>
+
+   <br>
+
+<div class="card">
+     <div class="card-header">POST</div>
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">/api/insert</h6>
+    <p class="card-text"></p>
+    <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Parameter</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>form_id</td>
+      <td>Instance Id</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>object_1</td>
+      <td>Dinamic Object 1</td>
+    </tr>
+   <tr>
+      <th scope="row">3</th>
+      <td>object_2</td>
+      <td>Dinamic Object 2</td>
+    </tr>
+  <tr>
+      <th scope="row">4</th>
+      <td>object_3</td>
+      <td>Dinamic Object 3</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+     <div class="card-footer">
+      <small class="text-muted">Example: localhost:port/api/insert?form_id=form_id_value&object_1=value_1&object_2=value_2&object_3=value_3</small>
+    </div>
+</div>
+
+     <br>
+
+<div class="card">
+     <div class="card-header">DELETE</div>
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">/api/delete</h6>
+    <p class="card-text"></p>
+    <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Parameter</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>form_id</td>
+      <td>Instance Id</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>id_response</td>
+      <td>Reponse Id</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+     <div class="card-footer">
+      <small class="text-muted">Example: localhost:port/api/delete?form_id=form_id_value&id_response=id_response_value</small>
+    </div>
+</div>
+
+     <br>
+
+<div class="card">
+    <div class="card-header">UPDATE</div>
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">/api/update</h6>
+    <p class="card-text"></p>
+    <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Parameter</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>form_id</td>
+      <td>Instance Id</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>id_response</td>
+      <td>Reponse Id</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>object_1</td>
+      <td>Dinamic Object 1</td>
+    </tr>
+   <tr>
+      <th scope="row">4</th>
+      <td>object_2</td>
+      <td>Dinamic Object 2</td>
+    </tr>
+  <tr>
+      <th scope="row">5</th>
+      <td>object_3</td>
+      <td>Dinamic Object 3</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+     <div class="card-footer">
+      <small class="text-muted">Example: localhost:port/api/update?form_id=form_id_value&object_1=value_1&object_2=value_2&object_3=value_3</small>
+    </div>
+</div>
+
 
 {% endblock content %}
 
