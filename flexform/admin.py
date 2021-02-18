@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Form, Object, Result, IdResult, FormMember
+from django.utils.html import format_html
 
 class FormAdmin(admin.ModelAdmin):
     model = Form
@@ -15,7 +16,11 @@ class ObjectAdmin(admin.ModelAdmin):
 
 class ResultAdmin(admin.ModelAdmin):
     model = Result
-    list_display = ['form','object', 'id_result','value']
+    def image(self, obj):
+        return format_html('<img src="{}" />'.format(obj.image))
+    image.short_description = 'Image'
+
+    list_display = ['form','object', 'id_result','value', 'image']
 
 class IdResultAdmin(admin.ModelAdmin):
     model = IdResult

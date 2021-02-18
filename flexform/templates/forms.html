@@ -4,7 +4,7 @@
 {% load static %}
 {% load i18n %}
   {% include "_modal.html" %}
-    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
+    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #90323D;">
     <img src="{% static "images/logo.png" %}"  width="100" height="30">
     <!--a class="navbar-brand" href="">Baicken</a-->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@
         <div class="row">
           <div class="col-12 mb-3">
                {% if not user.is_anonymous %}
-                    <button id="create-form" class="btn btn-secondary"  style="background-color: #1b6ca8;" type="button" name="button">
+                    <button id="create-form" class="btn btn-secondary"  style="background-color: #90323D;" type="button" name="button">
                        {% trans 'New' %} {% trans 'Instance' %}
                     </button>
                {% endif %}

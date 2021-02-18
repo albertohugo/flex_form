@@ -4,7 +4,7 @@
 {% load render_table from django_tables2 %}
 {% load i18n %}
   {% include "_modal.html" %}
-    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
+    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #90323D;">
      <img src="{% static "images/logo.png" %}"  width="100" height="30">
     <!--a class="navbar-brand" href="">Baicken</a-->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
 <div class="container">
         <br/>
         <h3>{{ form_title }}</h3>
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
               {% csrf_token %}
             {% if objects %}
                     {% for object in objects %}
@@ -55,9 +55,19 @@
                                      {% endif %}
                                 {% endfor %}
                             {% else %}
-                                <input type="number" step="0.01" id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
+                                        <input type="number" step="0.01" id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
                             {% endif %}
-
+                        {% elif object.type == 3 %}
+                            {% if form_filled %}
+                                {% for form_f in form_filled %}
+                                    {% if object == form_f.object %}
+                                        <br><img width="200" height="200" class="img-fluid img-thumbnail" {% if form_f.image %} src="{{ form_f.image.url }}" {% else %} alt="You have no image." {% endif %}>
+                                        <input type="file" accept="image/png, image/jpeg" id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ form_f.value }}" class="form-control">
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                        <input type="file" accept="image/png, image/jpeg" id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
+                            {% endif %}
                         {% else %}
                             {% if form_filled %}
                                 {% for form_f in form_filled %}
@@ -66,14 +76,14 @@
                                      {% endif %}
                                 {% endfor %}
                             {% else %}
-                                <input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
+                                        <input id="{{ form_id }}_{{ object.id }}" type="text" name="{{ form_id }}_{{ object.id }}" value="{{ current_name }}" required class="form-control">
                             {% endif %}
                         {% endif %}
                         <small class="form-text text-muted">{{ object.description }}</small>
                     {% endfor %}
                         <br>
                      <div class="modal-footer">
-                     <button type="submit" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #1b6ca8;">
+                     <button type="submit" class="bs-modal read-form btn btn-sm btn-secondary" style="background-color: #90323D;">
                           {% trans 'Send' %}
                      </button>
                  </div>

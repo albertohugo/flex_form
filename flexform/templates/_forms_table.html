@@ -42,7 +42,7 @@
        {% if not user.is_anonymous %}
        <td class="text-center ">
         <!-- Read form buttons -->
-        <button type="button" class="bs-modal read-form btn btn-sm btn-secondary " style="background-color: #1b6ca8; " data-form-url="{% url 'read_form' form.pk %}">
+        <button type="button" class="bs-modal read-form btn btn-sm btn-secondary " style="background-color: #90323D; " data-form-url="{% url 'read_form' form.pk %}">
           <img src="{% static "open-iconic-master/svg/eye_w.svg" %}" width="13" height="13">
         </button>
             {% for member in members %}
@@ -66,7 +66,7 @@
            {% endfor %}
             {% if form.created_by == user or user.is_superuser%}
             <!-- Update form buttons -->
-            <button type="button" class="update-form btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #1b6ca8;" data-form-url="{% url 'update_form' form.pk %}">
+            <button type="button" class="update-form btn btn-sm btn-secondary d-none d-lg-table-cell" style="background-color: #90323D;" data-form-url="{% url 'update_form' form.pk %}">
                <img src="{% static "open-iconic-master/svg/pencil_w.svg" %}" width="13" height="13">
             </button>
             <!-- Delete form buttons -->
@@ -137,6 +137,8 @@
                             <td class="text-center" width="33%">
                             {% if object.type == 1 %}
                                  <img src="{% static "open-iconic-master/svg/text.svg" %}" alt="Activated" width="10" height="10">
+                            {% elif object.type == 3 %}
+                                 <img src="{% static "open-iconic-master/svg/image.svg" %}" alt="Activated" width="10" height="10">
                             {% else %}
                                 <img src="{% static "open-iconic-master/svg/calculator.svg" %}" alt="Deactivated" width="10" height="10">
                             {% endif %}

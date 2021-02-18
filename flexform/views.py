@@ -125,7 +125,7 @@ def send_object(request):
                     count=0
                     for object in objects:
                         parameters.insert(count, object.label.lower())
-                        if request.GET.get(parameters[count]) == '':
+                        if request.GET.get(parameters[count]) == '' and object.type is not 3:
                             return HttpResponse('Parameter ' + parameters[count] + ' is empty')
                         elif request.GET.get(parameters[count]) == None:
                             return HttpResponse("Missing " + parameters[count] + ' as parameter')
@@ -141,6 +141,8 @@ def send_object(request):
                                     count += 1
                                 else:
                                     return HttpResponse('Parameter ' + parameters[count] + ' is not a number')
+                            elif object.type == 3:
+                                values.insert(count, request.FILES.get(parameters[count]))
                             else:
                                 values.insert(count, request.GET.get(parameters[count]))
                                 count += 1
@@ -149,7 +151,12 @@ def send_object(request):
                     id_result = IdResult.objects.filter().last()
 
                     for object in objects:
-                        Result.objects.create(form=form_selected.last(), object=object, id_result=id_result, value=values[countparam],created_by=request.user)
+                        if object.type == 3:
+                            Result.objects.create(form=form_selected.last(), object=object, id_result=id_result,
+                                                  image=values[countparam], created_by=request.user)
+                        else:
+                            Result.objects.create(form=form_selected.last(), object=object, id_result=id_result,
+                                                  value=values[countparam], created_by=request.user)
                         countparam += 1
                     return HttpResponse("Objects was sent")
 
@@ -197,7 +204,7 @@ def update_object(request):
                     count=0
                     for object in objects:
                         parameters.insert(count, object.label.lower())
-                        if request.GET.get(parameters[count]) == '':
+                        if request.GET.get(parameters[count]) == '' and object.type is not 3:
                             return HttpResponse('Parameter ' + parameters[count] + ' is empty')
                         elif request.GET.get(parameters[count]) == None:
                             print("Nothing to do with "+parameters[count]+" parameter")
@@ -216,6 +223,10 @@ def update_object(request):
                                     count += 1
                                 else:
                                     return HttpResponse('Parameter ' + parameters[count] + ' is not a number')
+                            elif object.type == 3:
+                                m = Result.objects.get(form=form_selected.first(), object=object, id_result=IdResult.objects.filter(id=id_result).last())
+                                m.image = request.FILES.get(parameters[count])
+                                m.save()
                             else:
                                 Result.objects.filter(form=form_selected.first(), object=object,
                                                       id_result=IdResult.objects.filter(id=id_result).last()).update(
@@ -447,26 +458,39 @@ def open_form(request):
     id_result = request.GET.get('id_result', '') or ''
     form = Form.objects.filter(id=pk)
     objects = Object.objects.filter(form__in=form)
-    #print(serializers.serialize("json", form))
-    #print(serializers.serialize("json", objects))
+
     if id_result != '':
         form_filled = Result.objects.filter(form=form.first(), id_result=IdResult.objects.filter(id=id_result).last())
     else:
         form_filled = Result.objects.filter(form=form.first(), id_result=0)
     if request.method == "POST":
         if id_result != '':
-            print(id_result)
             for object in objects:
-                value = request.POST[pk + '_' + str(object.id)]
-                Result.objects.filter(form=form.first(),object=object, id_result=IdResult.objects.filter(id=id_result).last()).update(value=value)
+                if object.type == 3:
+                    try:
+                        m = Result.objects.get(form=form.first(), object=object, id_result=IdResult.objects.filter(id=id_result).last())
+                        m.image = request.FILES[pk + '_' + str(object.id)]
+                        m.save()
+                    except KeyError:
+                        print("Empty file")
+                else:
+                    value = request.POST[pk + '_' + str(object.id)]
+                    Result.objects.filter(form=form.first(), object=object,
+                                          id_result=IdResult.objects.filter(id=id_result).last()).update(value=value)
             return HttpResponseRedirect('../')
         else:
             IdResult.objects.create(form=form.first())
             for object in objects:
-                value = request.POST[pk + '_' + str(object.id)]
-                id_result = IdResult.objects.filter().last()
+                if object.type == 3:
+                    value = request.FILES[pk + '_' + str(object.id)]
+                    print(value)
+                    id_result = IdResult.objects.filter().last()
+                    Result.objects.create(form=form.first(), object=object, id_result=id_result, image=value, created_by=request.user)
+                else:
 
-                Result.objects.create(form=form.first(), object=object, id_result=id_result ,value=value, created_by=request.user)
+                    value = request.POST[pk + '_' + str(object.id)]
+                    id_result = IdResult.objects.filter().last()
+                    Result.objects.create(form=form.first(), object=object, id_result=id_result, value=value, created_by=request.user)
             return HttpResponseRedirect('../')
 
     return render(request, 'instance.html',
@@ -488,7 +512,7 @@ def open_list(request):
     objects = Object.objects.filter(form__in=form)
     id_results = IdResult.objects.filter(form__in=form)
 
-    print(serializers.serialize("json", results))
+    #print(serializers.serialize("json", results))
     #print(serializers.serialize("json", objects))
 
 

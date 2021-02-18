@@ -3,7 +3,7 @@
 {% block content %}
 {% load i18n %}
   {% include "_modal.html" %}
-    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
+    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #90323D;">
      <img src="{% static "images/logo.png" %}"  width="100" height="30">
     <!--a class="navbar-brand" href="">Baicken</a-->
 
@@ -48,7 +48,7 @@
                     {% for form in forms %}
                       {% if form.status == True %}
                        <div class="card  bg-light">
-                           <div class="card-header text-white" style="background-color: #1b6ca8;">
+                           <div class="card-header text-white" style="background-color: #771F29;">
                                 <div >
                                     {{ form.title }}
 
@@ -83,6 +83,8 @@
                                                                 <td class="text-center">
                                                                   {% if object.type == 1 %}
                                                                     <img src="{% static "open-iconic-master/svg/text.svg" %}" alt="Activated" width="10" height="10">
+                                                                    {% elif object.type == 3 %}
+                                                                    <img src="{% static "open-iconic-master/svg/image.svg" %}" alt="Activated" width="10" height="10">
                                                                     {% else %}
                                                                    <img src="{% static "open-iconic-master/svg/calculator.svg" %}" alt="Deactivated" width="10" height="10">
                                                                   {% endif %}

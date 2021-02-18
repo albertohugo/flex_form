@@ -50,9 +50,11 @@ class FormMember(models.Model):
 class Object(models.Model):
     STRING = 1
     NUMBER = 2
+    IMAGE = 3
     OBJECT_TYPES = (
         (STRING, 'String'),
         (NUMBER, 'Number'),
+        (IMAGE, 'Image'),
     )
     form = models.ForeignKey('form', related_name='object', on_delete=models.CASCADE)
     label = models.CharField(max_length=50)
@@ -72,10 +74,18 @@ class IdResult(models.Model):
         else:
             return ''
 
+
+
 class Result(models.Model):
     form = models.ForeignKey('form', on_delete=models.CASCADE)
     object = models.ForeignKey('object', on_delete=models.CASCADE)
     id_result = models.ForeignKey('idresult', related_name='response_detail', on_delete=models.CASCADE)
     value = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='uploads/images')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     timestamp = models.DateField(auto_now_add=True, auto_now=False)
+
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url

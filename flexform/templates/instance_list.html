@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 {% load i18n %}
   {% include "_modal.html" %}
-    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #1b6ca8;">
+    <nav class="navbar navbar-expand-lg navbar navbar-dark " style="background-color: #90323D;">
      <img src="{% static "images/logo.png" %}"  width="100" height="30">
     <!--a class="navbar-brand" href="">Baicken</a-->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +48,7 @@
           </div>
             {% if id_results %}
               <table class="table center table-bordered table-striped table-hover table-sm " style="margin-bottom: 0px;">
-                  <thead class="text-white" style="background-color: #1b6ca8;">
+                  <thead class="text-white" style="background-color: #90323D;">
                       <tr>
                           {% for object in objects %}
                             <th class="text-center" scope="col">{{ object.label }}</th>
@@ -65,6 +66,11 @@
                                 {% if result.id_result.id == ids.id %}
                                   <td class="text-center">
                                   {{ result.value }}
+                                      {% if result.image %}
+
+                                      <a href="{{ result.image.url }}"\/>
+                                            <img src="{{ result.image.url }}" width="300" height="300" class="img-fluid img-thumbnail">
+                                      {% endif %}
                                   </td>
                                 {% endif %}
                             {% endfor %}

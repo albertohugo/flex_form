@@ -44,7 +44,7 @@ class ResultSerializer(serializers.HyperlinkedModelSerializer):
     object = serializers.ReadOnlyField(source='object.label')
     class Meta:
         model = Result
-        fields = ('object','value')
+        fields = ('object','value', 'image')
 
 class IdResultSerializer(serializers.HyperlinkedModelSerializer):
     response_detail = ResultSerializer(many=True)
