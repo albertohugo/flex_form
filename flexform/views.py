@@ -552,8 +552,13 @@ class ObjectCreateView(BSModalCreateView):
             form.form = Form.objects.get(pk=self.kwargs['pk'])
             form.created_by = self.request.user  # use your own profile here
             form.save()
-        return HttpResponseRedirect(self.success_url)
 
+            form_selected = Form.objects.filter(id=self.kwargs['pk'])
+            object = Object.objects.filter(form__in=form_selected).order_by('-id')[0]
+            results = IdResult.objects.filter(form__in=form_selected)
+            for result in results:
+                Result.objects.create(form=form_selected.first(), object=object, id_result=result, value="", created_by=self.request.user)
+        return HttpResponseRedirect(self.success_url)
 
 class ObjectUpdateView(BSModalUpdateView):
     model = Object

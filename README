@@ -11,9 +11,7 @@ Run the app locally Heroku
     heroku local web -> UNIX
 
 Push
-    git add .
-    git commit -m ""
-    git push
+    git add . && git commit -m "" && git push
 
 PROD
     Logging
