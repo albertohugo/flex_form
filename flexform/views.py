@@ -106,12 +106,12 @@ def send_object(request):
         else:
 
             if user.is_superuser:
-                form_selected = Form.objects.filter(id__in=form_id)
+                form_selected = Form.objects.filter(id=form_id)
             elif user.is_authenticated:
                 form_members = FormMember.objects.filter(user=user).values_list('form')
-                form_selected = Form.objects.filter(id__in=form_id, created_by=user) | \
-                       Form.objects.filter(id__in=form_id, private=False) | \
-                       Form.objects.filter(id__in=form_id).filter(id__in=form_members)
+                form_selected = Form.objects.filter(id=form_id, created_by=user) | \
+                       Form.objects.filter(id=form_id, private=False) | \
+                       Form.objects.filter(id=form_id).filter(id__in=form_members)
             else:
                 form_selected = Form.objects.filter(private=False)
 
@@ -183,12 +183,12 @@ def update_object(request):
             return HttpResponse("Missing id_response parameter")
         else:
             if user.is_superuser:
-                form_selected = Form.objects.filter(id__in=form_id)
+                form_selected = Form.objects.filter(id=form_id)
             elif user.is_authenticated:
                 form_members = FormMember.objects.filter(user=user).values_list('form')
-                form_selected = Form.objects.filter(id__in=form_id, created_by=user) | \
-                       Form.objects.filter(id__in=form_id, private=False) | \
-                       Form.objects.filter(id__in=form_id).filter(id__in=form_members)
+                form_selected = Form.objects.filter(id=form_id, created_by=user) | \
+                       Form.objects.filter(id=form_id, private=False) | \
+                       Form.objects.filter(id=form_id).filter(id__in=form_members)
             else:
                 form_selected = Form.objects.filter(private=False)
 
@@ -259,12 +259,12 @@ def delete_object(request):
             return HttpResponse("Missing id_response parameter")
         else:
             if user.is_superuser:
-                form_selected = Form.objects.filter(id__in=form_id)
+                form_selected = Form.objects.filter(id=form_id)
             elif user.is_authenticated:
                 form_members = FormMember.objects.filter(user=user).values_list('form')
-                form_selected = Form.objects.filter(id__in=form_id, created_by=user) | \
-                       Form.objects.filter(id__in=form_id, private=False) | \
-                       Form.objects.filter(id__in=form_id).filter(id__in=form_members)
+                form_selected = Form.objects.filter(id=form_id, created_by=user) | \
+                       Form.objects.filter(id=form_id, private=False) | \
+                       Form.objects.filter(id=form_id).filter(id__in=form_members)
             else:
                 form_selected = Form.objects.filter(private=False)
 
