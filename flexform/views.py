@@ -75,14 +75,14 @@ class FlexFormGetViewGet(viewsets.ModelViewSet):
     serializer_class = FlexFormGetSerializer
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return Form.objects.all()
+            return Form.objects.all().order_by('id')
         elif self.request.user.is_authenticated:
             form_members = FormMember.objects.filter(user=self.request.user).values_list('form')
             return Form.objects.filter(created_by=self.request.user) | \
                    Form.objects.filter(private=False) | \
-                   Form.objects.filter(id__in=form_members)
+                   Form.objects.filter(id__in=form_members).order_by('id')
         else:
-            return Form.objects.filter(private=False)
+            return Form.objects.filter(private=False).order_by('id')
 
 class FlexFormSetViewSet(viewsets.ModelViewSet):
     queryset = Object.objects.all()
